@@ -21,7 +21,7 @@ function renderHTML(resume) {
     if (job.locationType) meta.push(job.locationType);
     if (job.location) meta.push(job.location);
     const metaStr = meta.length ? ` · ${meta.join(' · ')}` : '';
-    const companyName = job.url ? `<a href="${job.url}">${job.name} ↗</a>` : job.name;
+    const companyName = job.url ? `<a href="${job.url}">${job.name}</a>` : job.name;
 
     return `
     <div class="entry">
@@ -39,15 +39,19 @@ function renderHTML(resume) {
   `;
   }).join('') || '';
 
-  const educationHTML = education?.map(edu => `
+  const educationHTML = education?.map(edu => {
+    const institutionName = edu.url ? `<a href="${edu.url}">${edu.institution}</a>` : edu.institution;
+    const dateRange = edu.startDate ? `${formatDate(edu.startDate)} - ${formatDate(edu.endDate)}` : formatDate(edu.endDate);
+    return `
     <div class="entry">
       <div class="entry-header">
         <div class="entry-title">${edu.studyType}, ${edu.area}</div>
-        <div class="entry-date">${formatDate(edu.endDate)}</div>
+        <div class="entry-date">${dateRange}</div>
       </div>
-      <div class="entry-company">${edu.institution}</div>
+      <div class="entry-company">${institutionName}</div>
     </div>
-  `).join('') || '';
+  `;
+  }).join('') || '';
 
   const languagesHTML = languages?.map(lang =>
     `<div class="lang-item">${lang.language} (${lang.fluency})</div>`
