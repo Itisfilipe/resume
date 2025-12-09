@@ -200,7 +200,7 @@ function renderHTML(resume) {
   <header class="header">
     <div class="name">${basics.name}</div>
     <div class="contact-info">
-      <span>Brazil</span>
+      <span>${basics.location?.region}, ${basics.location?.countryCode}</span>
       <span>${basics.phone}</span>
       <span><a href="mailto:${basics.email}">${basics.email}</a></span>
       ${basics.profiles?.map(p => `<span><a href="${p.url}">${p.url}</a></span>`).join('') || ''}
