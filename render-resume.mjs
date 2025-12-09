@@ -69,15 +69,15 @@ function renderHTML(resume) {
 
     html {
       font-family: 'Times New Roman', Times, serif;
-      font-size: 11pt;
-      line-height: 1.3;
+      font-size: 9.5pt;
+      line-height: 1.25;
       color: #000;
     }
 
     body {
       max-width: 8.5in;
       margin: 0 auto;
-      padding: 0.5in 0.75in;
+      padding: 0.4in 0.5in;
       background: #fff;
     }
 
@@ -86,28 +86,28 @@ function renderHTML(resume) {
     /* Header - centered */
     .header {
       text-align: center;
-      margin-bottom: 12pt;
+      margin-bottom: 8pt;
     }
 
     .name {
-      font-size: 16pt;
+      font-size: 14pt;
       font-weight: bold;
-      margin-bottom: 2pt;
+      margin-bottom: 1pt;
     }
 
     .contact-line {
-      font-size: 10pt;
+      font-size: 9pt;
     }
 
     /* Summary */
     .summary {
-      margin-bottom: 12pt;
+      margin-bottom: 8pt;
     }
 
     .summary p {
-      font-size: 10.5pt;
-      line-height: 1.4;
-      margin-bottom: 6pt;
+      font-size: 9pt;
+      line-height: 1.3;
+      margin-bottom: 4pt;
       text-align: justify;
     }
 
@@ -117,19 +117,19 @@ function renderHTML(resume) {
 
     /* Sections */
     .section {
-      margin-bottom: 10pt;
+      margin-bottom: 6pt;
     }
 
     .section-title {
-      font-size: 11pt;
+      font-size: 10pt;
       font-weight: bold;
       text-decoration: underline;
-      margin-bottom: 6pt;
+      margin-bottom: 4pt;
     }
 
     /* Entries */
     .entry {
-      margin-bottom: 10pt;
+      margin-bottom: 6pt;
     }
 
     .entry:last-child {
@@ -144,40 +144,46 @@ function renderHTML(resume) {
 
     .entry-title {
       font-weight: bold;
-      font-size: 11pt;
+      font-size: 9.5pt;
     }
 
     .entry-date {
-      font-size: 10pt;
+      font-size: 9pt;
       white-space: nowrap;
     }
 
     .entry-company {
-      font-size: 10.5pt;
-      margin-bottom: 2pt;
+      font-size: 9pt;
+      margin-bottom: 1pt;
     }
 
     .highlights {
       list-style: disc;
-      padding-left: 18pt;
-      margin-top: 2pt;
+      padding-left: 14pt;
+      margin-top: 1pt;
     }
 
     .highlights li {
-      font-size: 10.5pt;
-      line-height: 1.35;
-      margin-bottom: 1pt;
+      font-size: 9pt;
+      line-height: 1.25;
+      margin-bottom: 0;
     }
 
     /* Languages */
     .lang-item {
-      font-size: 10.5pt;
+      font-size: 9pt;
+      display: inline;
+    }
+
+    .lang-item:not(:last-child)::after {
+      content: " · ";
     }
 
     /* Print styles */
     @media print {
       body { padding: 0; }
-      .section { page-break-inside: avoid; }
+      .entry { page-break-inside: avoid; }
+      .section-title { page-break-after: avoid; }
     }
   </style>
 </head>
