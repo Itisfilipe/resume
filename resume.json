@@ -23,6 +23,8 @@
     {
       "name": "DrChrono",
       "position": "Senior Software Engineer",
+      "employmentType": "Full-time",
+      "locationType": "Remote",
       "url": "https://www.drchrono.com",
       "startDate": "2021-08",
       "highlights": [
@@ -37,6 +39,8 @@
     {
       "name": "DevStride",
       "position": "Senior Software Engineer",
+      "employmentType": "Full-time",
+      "locationType": "Remote",
       "startDate": "2025-11",
       "highlights": [
         "Building a full-stack wealth management platform using NestJS, Next.js, and TypeScript in a Turborepo monorepo",
@@ -47,6 +51,8 @@
     {
       "name": "Surton",
       "position": "Senior Software Engineer",
+      "employmentType": "Contract",
+      "locationType": "Remote",
       "startDate": "2024-08",
       "endDate": "2025-03",
       "highlights": [
@@ -58,6 +64,8 @@
     {
       "name": "Tomorrow Health",
       "position": "Senior Software Engineer",
+      "employmentType": "Contract",
+      "locationType": "Remote",
       "url": "https://www.tomorrowhealth.com",
       "startDate": "2023-12",
       "endDate": "2024-06",
@@ -70,6 +78,8 @@
     {
       "name": "Rise Financial",
       "position": "Back End Developer",
+      "employmentType": "Contract",
+      "locationType": "Remote",
       "startDate": "2022-07",
       "endDate": "2022-11",
       "highlights": [
@@ -80,6 +90,8 @@
     {
       "name": "BriteCore",
       "position": "Senior Software Engineer",
+      "employmentType": "Full-time",
+      "locationType": "Remote",
       "url": "https://www.britecore.com",
       "startDate": "2017-08",
       "endDate": "2021-06",
@@ -92,6 +104,8 @@
     {
       "name": "localhost.company",
       "position": "Frontend Engineer",
+      "employmentType": "Full-time",
+      "locationType": "Remote",
       "startDate": "2016-06",
       "endDate": "2017-07",
       "highlights": [
@@ -101,9 +115,11 @@
     {
       "name": "Universidade Federal de Sao Joao del-Rei",
       "position": "Software Engineer",
+      "employmentType": "Part-time",
+      "locationType": "On-site",
+      "location": "São João del Rei, Brazil",
       "startDate": "2014-04",
       "endDate": "2016-06",
-      "location": "São João del Rei, Brazil",
       "highlights": []
     }
   ],

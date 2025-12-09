@@ -15,20 +15,28 @@ function renderHTML(resume) {
     return `${formatDate(start)} - ${formatDate(end)}`;
   };
 
-  const workHTML = work?.map(job => `
+  const workHTML = work?.map(job => {
+    const meta = [];
+    if (job.employmentType) meta.push(job.employmentType);
+    if (job.locationType) meta.push(job.locationType);
+    if (job.location) meta.push(job.location);
+    const metaStr = meta.length ? ` · ${meta.join(' · ')}` : '';
+
+    return `
     <div class="entry">
       <div class="entry-header">
         <div class="entry-title">${job.position}</div>
         <div class="entry-date">${formatDateRange(job.startDate, job.endDate)}</div>
       </div>
-      <div class="entry-company">${job.name}${job.location ? ` – ${job.location}` : ''}</div>
+      <div class="entry-company">${job.name}${metaStr}</div>
       ${job.highlights?.length ? `
         <ul class="highlights">
           ${job.highlights.map(h => `<li>${h}</li>`).join('')}
         </ul>
       ` : ''}
     </div>
-  `).join('') || '';
+  `;
+  }).join('') || '';
 
   const educationHTML = education?.map(edu => `
     <div class="entry">

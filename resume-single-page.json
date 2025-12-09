@@ -22,6 +22,8 @@
     {
       "name": "DrChrono",
       "position": "Senior Software Engineer",
+      "employmentType": "Full-time",
+      "locationType": "Remote",
       "startDate": "2021-08",
       "highlights": [
         "Led ONC HTI-1 and USCDI v3 certification compliance for 15+ clinical resource types",
@@ -32,6 +34,8 @@
     {
       "name": "DevStride",
       "position": "Senior Software Engineer",
+      "employmentType": "Full-time",
+      "locationType": "Remote",
       "startDate": "2025-11",
       "highlights": [
         "Building wealth management platform: NestJS, Next.js, TypeScript, Turborepo"
@@ -40,6 +44,8 @@
     {
       "name": "Surton",
       "position": "Senior Software Engineer",
+      "employmentType": "Contract",
+      "locationType": "Remote",
       "startDate": "2024-08",
       "endDate": "2025-03",
       "highlights": [
@@ -49,6 +55,8 @@
     {
       "name": "Tomorrow Health",
       "position": "Senior Software Engineer",
+      "employmentType": "Contract",
+      "locationType": "Remote",
       "startDate": "2023-12",
       "endDate": "2024-06",
       "highlights": [
@@ -58,6 +66,8 @@
     {
       "name": "BriteCore",
       "position": "Senior Software Engineer",
+      "employmentType": "Full-time",
+      "locationType": "Remote",
       "startDate": "2017-08",
       "endDate": "2021-06",
       "highlights": [
