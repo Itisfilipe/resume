@@ -1,11 +1,11 @@
 {
   "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
   "basics": {
-    "name": "Filipe Amaral",
-    "label": "Senior Full-Stack Software Engineer",
+    "name": "Filipe Teixeira Amaral",
+    "label": "Senior Software Engineer",
     "email": "filipetamaral@gmail.com",
-    "phone": "+55 (48) 9 9623-2663",
-    "summary": "Full-Stack Engineer with nearly a decade of experience building SaaS platforms in healthcare, fintech, and insurance. I deliver end-to-end product features—from GraphQL APIs and compliance-driven systems to modern React frontends and high-performance data pipelines. I've built care plan modules, prior authorization workflows, real-time pricing engines with multi-vendor integrations, and wealth management platforms. I focus on scalable architecture, regulatory compliance, and shipping reliable systems.",
+    "phone": "+55 (32) 9 8879-4370",
+    "summary": "Full-Stack Engineer with nearly a decade of experience building SaaS platforms in healthcare, fintech, and insurance. I deliver end-to-end product features—from GraphQL APIs and compliance-driven systems to modern React frontends and high-performance data pipelines.\n\nI've built care plan modules, prior authorization workflows, real-time pricing engines with multi-vendor integrations, and wealth management platforms. I focus on scalable architecture, regulatory compliance, and the development of reliable systems.\n\nTech: Python, TypeScript, Django, FastAPI, NestJS, React, Next.js, GraphQL, PostgreSQL, DynamoDB, AWS, Terraform",
     "location": {
       "city": "Florianópolis",
       "region": "Santa Catarina",
@@ -16,54 +16,43 @@
         "network": "LinkedIn",
         "username": "itisfilipe",
         "url": "https://linkedin.com/in/itisfilipe"
-      },
-      {
-        "network": "GitHub",
-        "username": "Itisfilipe",
-        "url": "https://github.com/Itisfilipe"
       }
     ]
   },
   "work": [
     {
-      "name": "Advis",
+      "name": "DrChrono",
       "position": "Senior Software Engineer",
-      "url": "",
+      "url": "https://www.drchrono.com",
+      "startDate": "2021-08",
+      "highlights": [
+        "Led ONC HTI-1 and USCDI v3 certification compliance, implementing provenance tracking and persistent ID versioning for 15+ clinical resource types",
+        "Built Care Plan module end-to-end: GraphQL schema, React frontend with drawers/modals, care team management, and audit logging",
+        "Developed SMART on FHIR integration platform with management dashboard and JWT authentication",
+        "Implemented annual MIPS/eCQM quality measure updates (2022-2025) and QRDA exports for Cypress certification",
+        "Optimized bulk C-CDA export system—resolved race conditions, added performance improvements for large practices",
+        "Built asynchronous C-CDA export API and contributed to React Calendar rebuild"
+      ]
+    },
+    {
+      "name": "DevStride",
+      "position": "Senior Software Engineer",
       "startDate": "2025-11",
-      "summary": "Building a full-stack wealth management platform",
       "highlights": [
         "Building a full-stack wealth management platform using NestJS, Next.js, and TypeScript in a Turborepo monorepo",
         "Architected type-safe API client infrastructure with OpenAPI auto-generation and TanStack Query integration",
-        "Established CI/CD pipeline with GitHub Actions, unified linting configs, and developer tooling across the monorepo",
-        "Integrated with financial data providers (BlackDiamond, Wealthbox, Dottie) for portfolio and client management"
+        "Established CI/CD pipeline, unified linting configs, and developer tooling across the monorepo"
       ]
     },
     {
-      "name": "Surton / RxPartner",
+      "name": "Surton",
       "position": "Senior Software Engineer",
       "startDate": "2024-08",
       "endDate": "2025-03",
-      "summary": "Built pharmaceutical pricing platform with multi-vendor integrations",
       "highlights": [
-        "Built FastAPI backend for pharmaceutical pricing platform, integrating multiple claims processor vendors (Optum, RxLogic, Cervey, MedOne, Buzz) for real-time drug price comparison",
-        "Implemented DynamoDB caching layer with client-specific API key caching and TTL-based invalidation for high-throughput price lookups",
-        "Built transaction tracking system with detailed logging for pricing accuracy analytics and vendor performance monitoring",
-        "Managed AWS infrastructure (Terraform) including EventBridge triggers, SQS queues, and multi-vendor credential management"
-      ]
-    },
-    {
-      "name": "DrChrono",
-      "position": "Senior Software Engineer II",
-      "url": "https://www.drchrono.com",
-      "startDate": "2021-08",
-      "summary": "Led healthcare interoperability and compliance initiatives for EHR platform",
-      "highlights": [
-        "Led ONC HTI-1 and USCDI v3 certification compliance, implementing provenance tracking and persistent ID versioning for 15+ clinical resource types",
-        "Built Care Plan module end-to-end: designed GraphQL schema, implemented React frontend with drawers/modals, integrated care team management with audit logging",
-        "Developed SMART on FHIR integration platform with management dashboard, JWT authentication, and patient data access for third-party healthcare applications",
-        "Implemented annual MIPS/eCQM quality measure updates (2022-2025) and QRDA exports for Cypress certification validation",
-        "Optimized bulk C-CDA export system—resolved race conditions, added performance improvements, and implemented upper limits for large healthcare practices",
-        "Built asynchronous C-CDA export API and contributed to React Calendar rebuild migrating from Angular"
+        "Built FastAPI backend for pharmaceutical pricing platform, integrating multiple claims processor vendors (Optum, RxLogic, Cervey, MedOne) for real-time drug price comparison",
+        "Implemented DynamoDB caching layer and transaction tracking for high-throughput price lookups",
+        "Managed AWS infrastructure (Terraform), including EventBridge triggers and SQS queues"
       ]
     },
     {
@@ -72,47 +61,50 @@
       "url": "https://www.tomorrowhealth.com",
       "startDate": "2023-12",
       "endDate": "2024-06",
-      "summary": "Built prior authorization system for home health equipment ordering platform",
       "highlights": [
         "Built Prior Authorization Request system end-to-end: GraphQL backend (Python/Django) and React frontend with tables, drawers, and timeline components",
-        "Implemented PA cover sheet generation mutation, Title XIX (Medicaid) form integration, and fax submission workflow",
+        "Implemented PA cover sheet generation, Title XIX (Medicaid) form integration, and fax submission workflow",
         "Extended insurer data model with state-specific prior authorization configurations"
       ]
     },
     {
       "name": "Rise Financial",
-      "position": "Back End Engineer",
+      "position": "Back End Developer",
       "startDate": "2022-07",
       "endDate": "2022-11",
-      "summary": "Achieved PCI compliance for financial services platform",
       "highlights": [
-        "Restructured backend architecture in Django and integrated with Very Good Security to secure credit card data",
-        "Achieved PCI compliance and enhanced system scalability"
+        "Restructured backend architecture in Django and integrated with Very Good Security for PCI compliance",
+        "Secured credit card data handling and enhanced system scalability"
       ]
     },
     {
       "name": "BriteCore",
       "position": "Senior Software Engineer",
       "url": "https://www.britecore.com",
-      "startDate": "2017-12",
+      "startDate": "2017-08",
       "endDate": "2021-06",
-      "summary": "Modernized insurance platform serving 50+ insurance companies",
       "highlights": [
         "Replaced legacy insurance system with modular components using Python, Django, Flask, and VueJS on AWS",
-        "Developed serverless authentication service for 50+ insurance companies using AWS Lambda and Cognito",
-        "Supported clients by proposing features, resolving bugs, and improving system reliability"
+        "Developed serverless authentication service for 50+ insurance companies",
+        "Supported clients by proposing features and resolving bugs"
       ]
     },
     {
       "name": "localhost.company",
-      "position": "Frontend Developer",
+      "position": "Frontend Engineer",
       "startDate": "2016-06",
-      "endDate": "2017-06",
-      "summary": "Frontend development for client applications",
+      "endDate": "2017-07",
       "highlights": [
-        "Maintained and supported applications built in Angular 1.5 and AngularJS",
-        "Ensured stability and functionality for ongoing client projects"
+        "Maintained and supported applications built in Angular 1.5 and AngularJS"
       ]
+    },
+    {
+      "name": "Universidade Federal de Sao Joao del-Rei",
+      "position": "Software Engineer",
+      "startDate": "2014-04",
+      "endDate": "2016-06",
+      "location": "São João del Rei, Brazil",
+      "highlights": []
     }
   ],
   "education": [
@@ -120,90 +112,18 @@
       "institution": "Universidade Federal de São João del-Rei",
       "area": "Computer Science",
       "studyType": "Bachelor of Science",
-      "startDate": "2011-01",
-      "endDate": "2016-12"
-    }
-  ],
-  "certificates": [
-    {
-      "name": "AWS Certified Developer",
-      "date": "2019-12",
-      "issuer": "Amazon Web Services",
-      "url": "https://aws.amazon.com/certification/certified-developer-associate/"
-    }
-  ],
-  "skills": [
-    {
-      "name": "Backend Development",
-      "level": "Expert",
-      "keywords": ["Python", "Django", "FastAPI", "NestJS", "Flask", "Celery", "GraphQL", "REST"]
-    },
-    {
-      "name": "Frontend Development",
-      "level": "Advanced",
-      "keywords": ["TypeScript", "JavaScript", "React", "Next.js", "Vue.js", "AngularJS"]
-    },
-    {
-      "name": "Databases",
-      "level": "Advanced",
-      "keywords": ["PostgreSQL", "MySQL", "DynamoDB", "SQL"]
-    },
-    {
-      "name": "Cloud & Infrastructure",
-      "level": "Advanced",
-      "keywords": ["AWS", "Lambda", "SQS", "EventBridge", "Cognito", "Terraform", "Docker"]
-    },
-    {
-      "name": "Healthcare Standards",
-      "level": "Expert",
-      "keywords": ["HL7 FHIR", "C-CDA", "QRDA", "eCQM", "USCDI", "ONC Certification", "MIPS"]
-    },
-    {
-      "name": "Architecture & Practices",
-      "level": "Advanced",
-      "keywords": ["Microservices", "Monorepos", "CI/CD", "PCI Compliance", "Scalable Systems"]
+      "startDate": "2012",
+      "endDate": "2016"
     }
   ],
   "languages": [
     {
+      "language": "English",
+      "fluency": "Professional Working"
+    },
+    {
       "language": "Portuguese",
       "fluency": "Native"
-    },
-    {
-      "language": "English",
-      "fluency": "Fluent"
-    }
-  ],
-  "projects": [
-    {
-      "name": "keyboard-sounds",
-      "description": "Mechanical keyboard sounds extension for VSCode with 17+ stars",
-      "highlights": [
-        "Built a VSCode extension that plays mechanical keyboard sounds while typing",
-        "Published on VSCode Marketplace with community adoption"
-      ],
-      "keywords": ["TypeScript", "VSCode Extension", "Developer Tools"],
-      "url": "https://github.com/Itisfilipe/keyboard-sounds"
-    },
-    {
-      "name": "ccdakit",
-      "description": "Python library for generating HL7 C-CDA clinical documents",
-      "highlights": [
-        "Open-source library for programmatic generation of C-CDA documents",
-        "Supports healthcare interoperability standards (HL7, CDA)"
-      ],
-      "keywords": ["Python", "HL7", "C-CDA", "Healthcare", "Open Source"],
-      "url": "https://github.com/Itisfilipe/ccdakit"
-    },
-    {
-      "name": "NinjaTraderIndicators",
-      "description": "Collection of custom trading indicators for NinjaTrader 8 with 7+ stars",
-      "highlights": [
-        "Custom technical analysis indicators for algorithmic trading",
-        "Used in personal trading system"
-      ],
-      "keywords": ["C#", "NinjaTrader", "Trading", "Fintech"],
-      "url": "https://github.com/Itisfilipe/NinjaTraderIndicators"
     }
   ],
   "meta": {

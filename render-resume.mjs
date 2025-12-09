@@ -2,24 +2,26 @@ import fs from 'fs';
 import puppeteer from 'puppeteer';
 
 function renderHTML(resume) {
-  const { basics, work, education, certificates, skills, languages } = resume;
+  const { basics, work, education, languages } = resume;
 
   const formatDate = (dateStr) => {
     if (!dateStr) return 'Present';
     const [year, month] = dateStr.split('-');
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     return month ? `${months[parseInt(month) - 1]} ${year}` : year;
+  };
+
+  const formatDateRange = (start, end) => {
+    return `${formatDate(start)} - ${formatDate(end)}`;
   };
 
   const workHTML = work?.map(job => `
     <div class="entry">
       <div class="entry-header">
-        <div class="entry-left">
-          <span class="entry-title">${job.position}</span>
-          <span class="entry-company"> | ${job.name}${job.url ? ` <a href="${job.url}" class="link">↗</a>` : ''}</span>
-        </div>
-        <div class="entry-date">${formatDate(job.startDate)} - ${formatDate(job.endDate)}</div>
+        <div class="entry-title">${job.position}</div>
+        <div class="entry-date">${formatDateRange(job.startDate, job.endDate)}</div>
       </div>
+      <div class="entry-company">${job.name}${job.location ? ` – ${job.location}` : ''}</div>
       ${job.highlights?.length ? `
         <ul class="highlights">
           ${job.highlights.map(h => `<li>${h}</li>`).join('')}
@@ -31,42 +33,21 @@ function renderHTML(resume) {
   const educationHTML = education?.map(edu => `
     <div class="entry">
       <div class="entry-header">
-        <div class="entry-left">
-          <span class="entry-title">${edu.studyType} in ${edu.area}</span>
-          <span class="entry-company"> | ${edu.institution}</span>
-        </div>
+        <div class="entry-title">${edu.studyType}, ${edu.area}</div>
         <div class="entry-date">${formatDate(edu.endDate)}</div>
       </div>
+      <div class="entry-company">${edu.institution}</div>
     </div>
   `).join('') || '';
-
-  const certificatesHTML = certificates?.map(cert => `
-    <div class="entry">
-      <div class="entry-header">
-        <div class="entry-left">
-          <span class="entry-title">${cert.name}</span>
-          <span class="entry-company"> | ${cert.issuer}</span>
-        </div>
-        <div class="entry-date">${formatDate(cert.date)}</div>
-      </div>
-    </div>
-  `).join('') || '';
-
-  const skillsHTML = skills?.map(skill =>
-    `<div class="skill-line"><strong>${skill.name}:</strong> ${skill.keywords?.join(', ')}</div>`
-  ).join('') || '';
 
   const languagesHTML = languages?.map(lang =>
-    `<span class="lang-item">${lang.language} <span class="lang-level">(${lang.fluency})</span></span>`
-  ).join(' • ') || '';
+    `<div class="lang-item">${lang.language} (${lang.fluency})</div>`
+  ).join('') || '';
 
-  const contactItems = [];
-  if (basics.email) contactItems.push(`<a href="mailto:${basics.email}">${basics.email}</a>`);
-  if (basics.phone) contactItems.push(`<a href="tel:${basics.phone}">${basics.phone}</a>`);
-  if (basics.location) contactItems.push(`${basics.location.city}, ${basics.location.region || basics.location.countryCode}`);
-  basics.profiles?.forEach(p => {
-    contactItems.push(`<a href="${p.url}">${p.network}</a>`);
-  });
+  // Format summary with paragraphs
+  const summaryHTML = basics.summary?.split('\n\n').map(p =>
+    `<p>${p}</p>`
+  ).join('') || '';
 
   return `<!DOCTYPE html>
 <html>
@@ -74,145 +55,115 @@ function renderHTML(resume) {
   <meta charset="utf-8">
   <title>${basics.name} - Resume</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Times+New+Roman:wght@400;700&display=swap');
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     html {
-      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: 10pt;
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 11pt;
       line-height: 1.3;
-      color: #2d2d2d;
+      color: #000;
     }
 
     body {
       max-width: 8.5in;
       margin: 0 auto;
-      padding: 0.5in 0.6in;
+      padding: 0.5in 0.75in;
       background: #fff;
     }
 
-    a { color: #2d2d2d; text-decoration: none; }
-    a:hover { color: #0066cc; }
+    a { color: #000; text-decoration: none; }
 
-    /* Header */
+    /* Header - centered */
     .header {
       text-align: center;
-      margin-bottom: 16pt;
+      margin-bottom: 12pt;
     }
 
     .name {
-      font-size: 20pt;
-      font-weight: 700;
-      color: #0066cc;
-      margin-bottom: 6pt;
-      letter-spacing: 0.5pt;
+      font-size: 16pt;
+      font-weight: bold;
+      margin-bottom: 2pt;
     }
 
-    .contact {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 4pt 16pt;
-      font-size: 9pt;
-      color: #525252;
+    .contact-line {
+      font-size: 10pt;
     }
-
-    .contact a { color: #525252; }
 
     /* Summary */
     .summary {
-      font-size: 9.5pt;
+      margin-bottom: 12pt;
+    }
+
+    .summary p {
+      font-size: 10.5pt;
       line-height: 1.4;
+      margin-bottom: 6pt;
       text-align: justify;
-      margin-bottom: 14pt;
-      color: #3d3d3d;
+    }
+
+    .summary p:last-child {
+      margin-bottom: 0;
     }
 
     /* Sections */
     .section {
-      margin-bottom: 12pt;
+      margin-bottom: 10pt;
     }
 
     .section-title {
       font-size: 11pt;
-      font-weight: 700;
-      color: #0066cc;
-      border-bottom: 1.5pt solid #0066cc;
-      padding-bottom: 2pt;
-      margin-bottom: 8pt;
-      text-transform: uppercase;
-      letter-spacing: 0.5pt;
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 6pt;
     }
 
     /* Entries */
     .entry {
-      margin-bottom: 8pt;
+      margin-bottom: 10pt;
+    }
+
+    .entry:last-child {
+      margin-bottom: 0;
     }
 
     .entry-header {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      margin-bottom: 2pt;
-    }
-
-    .entry-left {
-      flex: 1;
     }
 
     .entry-title {
-      font-weight: 700;
-      font-size: 10pt;
-    }
-
-    .entry-company {
-      font-size: 10pt;
-      color: #525252;
+      font-weight: bold;
+      font-size: 11pt;
     }
 
     .entry-date {
-      font-size: 9pt;
-      color: #525252;
+      font-size: 10pt;
       white-space: nowrap;
-      margin-left: 8pt;
+    }
+
+    .entry-company {
+      font-size: 10.5pt;
+      margin-bottom: 2pt;
     }
 
     .highlights {
       list-style: disc;
-      padding-left: 16pt;
-      margin-top: 3pt;
+      padding-left: 18pt;
+      margin-top: 2pt;
     }
 
     .highlights li {
-      font-size: 9.5pt;
+      font-size: 10.5pt;
       line-height: 1.35;
-      margin-bottom: 1.5pt;
-      color: #3d3d3d;
-    }
-
-    /* Skills */
-    .skill-line {
-      font-size: 9.5pt;
-      margin-bottom: 2pt;
-    }
-
-    .skill-line strong {
-      font-weight: 500;
+      margin-bottom: 1pt;
     }
 
     /* Languages */
     .lang-item {
-      font-size: 9.5pt;
-    }
-
-    .lang-level {
-      color: #666;
-    }
-
-    .link {
-      font-size: 8pt;
-      color: #888;
+      font-size: 10.5pt;
     }
 
     /* Print styles */
@@ -224,11 +175,19 @@ function renderHTML(resume) {
 </head>
 <body>
   <header class="header">
-    <h1 class="name">${basics.name}</h1>
-    <div class="contact">${contactItems.join(' <span style="color:#999">|</span> ')}</div>
+    <div class="name">${basics.name}</div>
+    <div class="contact-line">${basics.location?.city}, ${basics.location?.region}, ${basics.location?.countryCode}</div>
+    <div class="contact-line">${basics.phone}</div>
+    <div class="contact-line"><a href="mailto:${basics.email}">${basics.email}</a></div>
+    ${basics.profiles?.map(p => `<div class="contact-line"><a href="${p.url}">${p.url}</a></div>`).join('') || ''}
   </header>
 
-  ${basics.summary ? `<p class="summary">${basics.summary}</p>` : ''}
+  ${basics.summary ? `
+  <section class="section summary">
+    <h2 class="section-title">Summary</h2>
+    ${summaryHTML}
+  </section>
+  ` : ''}
 
   ${work?.length ? `
   <section class="section">
@@ -244,24 +203,10 @@ function renderHTML(resume) {
   </section>
   ` : ''}
 
-  ${certificates?.length ? `
-  <section class="section">
-    <h2 class="section-title">Certifications</h2>
-    ${certificatesHTML}
-  </section>
-  ` : ''}
-
-  ${skills?.length ? `
-  <section class="section">
-    <h2 class="section-title">Skills</h2>
-    ${skillsHTML}
-  </section>
-  ` : ''}
-
   ${languages?.length ? `
   <section class="section">
     <h2 class="section-title">Languages</h2>
-    <div>${languagesHTML}</div>
+    ${languagesHTML}
   </section>
   ` : ''}
 </body>
