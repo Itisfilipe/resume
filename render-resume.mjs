@@ -21,7 +21,7 @@ function renderHTML(resume) {
     if (job.locationType) meta.push(job.locationType);
     if (job.location) meta.push(job.location);
     const metaStr = meta.length ? ` · ${meta.join(' · ')}` : '';
-    const companyName = job.url ? `<a href="${job.url}">${job.name}</a>` : job.name;
+    const companyName = job.url ? `<a href="${job.url}">${job.name} ↗</a>` : job.name;
 
     return `
     <div class="entry">
