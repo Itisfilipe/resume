@@ -5,7 +5,7 @@
     "label": "Senior Software Engineer",
     "email": "filipetamaral@gmail.com",
     "phone": "+55 (48) 9 9623-2663",
-    "summary": "Full-Stack Engineer with nearly a decade of experience building SaaS platforms in healthcare, fintech, and insurance. I deliver end-to-end product features from GraphQL APIs and compliance-driven systems to modern React frontends and high-performance data pipelines. I leverage AI tools and agents to accelerate development while maintaining code quality.\n\nI've built care plan modules, prior authorization workflows, real-time pricing engines with multi-vendor integrations, and wealth management platforms. I focus on scalable architecture, regulatory compliance, and the development of reliable systems.\n\nTech: Python, TypeScript, Django, FastAPI, NestJS, React, Next.js, GraphQL, PostgreSQL, MySQL, AWS, Terraform",
+    "summary": "Full-Stack Engineer with nearly a decade of experience building SaaS platforms in healthcare, fintech, and insurance. I deliver end-to-end product features from GraphQL APIs and compliance-driven systems to modern React frontends and high-performance data pipelines.\n\nI've built care plan modules, prior authorization workflows, real-time pricing engines with multi-vendor integrations, and wealth management platforms. I focus on scalable architecture, regulatory compliance, and the development of reliable systems.\n\nTech: Python, TypeScript, Django, FastAPI, NestJS, React, Next.js, GraphQL, PostgreSQL, MySQL, AWS, Terraform",
     "location": {
       "city": "Tres Passos",
       "region": "Rio Grande do Sul",
@@ -44,7 +44,7 @@
     {
       "name": "DevStride",
       "position": "Senior Software Engineer",
-      "employmentType": "Freelance",
+      "employmentType": "Contract",
       "locationType": "Remote",
       "startDate": "2025-11",
       "highlights": [
@@ -56,7 +56,7 @@
     {
       "name": "Surton",
       "position": "Senior Software Engineer",
-      "employmentType": "Freelance",
+      "employmentType": "Contract",
       "locationType": "Remote",
       "url": "https://www.surton.com",
       "startDate": "2024-08",
@@ -84,7 +84,7 @@
     {
       "name": "Rise Financial",
       "position": "Back End Developer",
-      "employmentType": "Freelance",
+      "employmentType": "Contract",
       "locationType": "Remote",
       "startDate": "2022-07",
       "endDate": "2022-11",
