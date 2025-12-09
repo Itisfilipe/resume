@@ -21,6 +21,7 @@ function renderHTML(resume) {
     if (job.locationType) meta.push(job.locationType);
     if (job.location) meta.push(job.location);
     const metaStr = meta.length ? ` · ${meta.join(' · ')}` : '';
+    const companyName = job.url ? `<a href="${job.url}">${job.name}</a>` : job.name;
 
     return `
     <div class="entry">
@@ -28,7 +29,7 @@ function renderHTML(resume) {
         <div class="entry-title">${job.position}</div>
         <div class="entry-date">${formatDateRange(job.startDate, job.endDate)}</div>
       </div>
-      <div class="entry-company">${job.name}${metaStr}</div>
+      <div class="entry-company">${companyName}${metaStr}</div>
       ${job.highlights?.length ? `
         <ul class="highlights">
           ${job.highlights.map(h => `<li>${h}</li>`).join('')}
