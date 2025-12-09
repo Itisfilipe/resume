@@ -95,8 +95,12 @@ function renderHTML(resume) {
       margin-bottom: 1pt;
     }
 
-    .contact-line {
+    .contact-info {
       font-size: 8.5pt;
+    }
+
+    .contact-info span:not(:last-child)::after {
+      content: " · ";
     }
 
     /* Summary */
@@ -190,10 +194,12 @@ function renderHTML(resume) {
 <body>
   <header class="header">
     <div class="name">${basics.name}</div>
-    <div class="contact-line">${basics.location?.city}, ${basics.location?.region}, ${basics.location?.countryCode}</div>
-    <div class="contact-line">${basics.phone}</div>
-    <div class="contact-line"><a href="mailto:${basics.email}">${basics.email}</a></div>
-    ${basics.profiles?.map(p => `<div class="contact-line"><a href="${p.url}">${p.url}</a></div>`).join('') || ''}
+    <div class="contact-info">
+      <span>${basics.location?.city}, ${basics.location?.region}, ${basics.location?.countryCode}</span>
+      <span>${basics.phone}</span>
+      <span><a href="mailto:${basics.email}">${basics.email}</a></span>
+      ${basics.profiles?.map(p => `<span><a href="${p.url}">${p.url}</a></span>`).join('') || ''}
+    </div>
   </header>
 
   ${basics.summary ? `
