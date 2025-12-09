@@ -4,9 +4,7 @@
   "description": "Filipe Amaral's resume using JSON Resume standard",
   "scripts": {
     "serve": "resume serve --theme elegant",
-    "export:pdf": "node render-resume.mjs resume.json resume-full.pdf",
-    "export:pdf:single": "node render-resume.mjs resume-single-page.json resume-single-page.pdf",
-    "export:all": "npm run export:pdf && npm run export:pdf:single",
+    "export:pdf": "node render-resume.mjs resume.json resume.pdf",
     "validate": "resume validate"
   },
   "keywords": [
