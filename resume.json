@@ -44,7 +44,7 @@
     {
       "name": "DevStride",
       "position": "Senior Software Engineer",
-      "employmentType": "Full-time",
+      "employmentType": "Freelance",
       "locationType": "Remote",
       "startDate": "2025-11",
       "highlights": [
@@ -56,7 +56,7 @@
     {
       "name": "Surton",
       "position": "Senior Software Engineer",
-      "employmentType": "Contract",
+      "employmentType": "Freelance",
       "locationType": "Remote",
       "url": "https://www.surton.com",
       "startDate": "2024-08",
@@ -84,7 +84,7 @@
     {
       "name": "Rise Financial",
       "position": "Back End Developer",
-      "employmentType": "Contract",
+      "employmentType": "Freelance",
       "locationType": "Remote",
       "startDate": "2022-07",
       "endDate": "2022-11",
@@ -122,13 +122,15 @@
     {
       "name": "Universidade Federal de Sao Joao del-Rei",
       "position": "Software Engineer",
-      "employmentType": "Part-time",
+      "employmentType": "Internship",
       "locationType": "On-site",
       "url": "https://www.ufsj.edu.br",
       "location": "São João del Rei, Brazil",
       "startDate": "2014-04",
       "endDate": "2016-06",
-      "highlights": []
+      "highlights": [
+        "Developed internal tools for university administrative staff using PHP and MySQL"
+      ]
     }
   ],
   "education": [
