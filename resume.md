@@ -6,11 +6,11 @@ Rio Grande do Sul, Brazil · +55 (48) 9 9623-2663 · [filipetamaral@gmail.com](m
 
 ## Summary
 
-Full-Stack Engineer with 9+ years of experience building SaaS platforms in healthcare, fintech, and insurance. I deliver end-to-end product features—from GraphQL APIs and compliance-driven systems to modern React frontends and high-performance data pipelines.
+Full-Stack Engineer with 10+ years of experience building SaaS platforms in healthcare, fintech, and insurance. I deliver end-to-end product features—from GraphQL APIs and compliance-driven systems to modern React frontends and high-performance data pipelines.
 
 I've built care plan modules, prior authorization workflows, real-time pricing engines with multi-vendor integrations, and wealth management platforms. I focus on scalable architecture, data-intensive systems, and shipping reliable software. Comfortable working with AI tools and integrating LLM-powered features into production systems.
 
-Tech: Python, TypeScript, JavaScript, FastAPI, Django, Flask, NestJS, React, Next.js, Vue.js, GraphQL, REST, PostgreSQL, MySQL, Redis, AWS , Terraform, Docker, Git
+Tech: Python, TypeScript, JavaScript, FastAPI, Django, Flask, NestJS, React, Next.js, Vue.js, GraphQL, REST, PostgreSQL, MySQL, Redis, AWS, Terraform, Docker, Git
 
 ## Experience
 
