@@ -31,7 +31,6 @@
       "locationType": "Remote",
       "url": "https://www.drchrono.com",
       "startDate": "2021-08",
-      "duration": "4 yrs 4 mos",
       "highlights": [
         "Led ONC HTI-1 and USCDI v3 certification compliance, implementing provenance tracking and persistent ID versioning for 15+ clinical resource types",
         "Built Care Plan module end-to-end: GraphQL schema, React frontend with drawers/modals, care team management, and audit logging",
@@ -49,7 +48,6 @@
       "url": "https://www.britecore.com",
       "startDate": "2017-08",
       "endDate": "2021-06",
-      "duration": "3 yrs 10 mos",
       "highlights": [
         "Led a team of 4 engineers to integrate a new insurance client—resulting in $2M+ in premium sold to 500+ customers",
         "Developed serverless authentication service (Lambda, Cognito) with SSO and MFA for 50+ insurance companies",
@@ -65,7 +63,6 @@
       "url": "https://www.localhost.company",
       "startDate": "2016-06",
       "endDate": "2017-07",
-      "duration": "1 yr 1 mo",
       "highlights": [
         "Built frontend for an online marketplace using Angular 1",
         "Migrated a collaborative document platform from Angular 1 to Angular 2"
@@ -80,7 +77,6 @@
       "location": "São João del Rei, Brazil",
       "startDate": "2014-04",
       "endDate": "2016-06",
-      "duration": "2 yrs 2 mos",
       "highlights": [
         "Refactored educational platform interface serving 1k+ teachers and 15k+ students",
         "Architected and developed an educational platform for primary school students using Flask and jQuery"
@@ -90,26 +86,25 @@
   "freelance": [
     {
       "name": "Advis",
-      "period": "Nov 2025 - Present",
-      "duration": "1 mo",
+      "startDate": "2025-11",
       "description": "Building wealth management platform with NestJS, Next.js, TypeScript; architected type-safe API client with OpenAPI and TanStack Query"
     },
     {
       "name": "RxPatterns",
-      "period": "Aug 2024 - Mar 2025",
-      "duration": "8 mos",
+      "startDate": "2024-08",
+      "endDate": "2025-03",
       "description": "Built FastAPI backend for pharmaceutical pricing, integrating Optum, RxLogic, Cervey, MedOne; DynamoDB caching, AWS infrastructure (Terraform)"
     },
     {
       "name": "Tomorrow Health",
-      "period": "Dec 2023 - Jun 2024",
-      "duration": "7 mos",
+      "startDate": "2023-12",
+      "endDate": "2024-06",
       "description": "Built Prior Authorization system end-to-end—GraphQL/Django backend and React frontend with Medicaid form integration"
     },
     {
       "name": "Rise Financial",
-      "period": "Jul 2022 - Nov 2022",
-      "duration": "5 mos",
+      "startDate": "2022-07",
+      "endDate": "2022-11",
       "description": "Restructured Django backend with Very Good Security integration for PCI compliance"
     }
   ],

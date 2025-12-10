@@ -1,19 +1,35 @@
 import fs from 'fs';
 import puppeteer from 'puppeteer';
 
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+function formatDate(dateStr) {
+  if (!dateStr) return 'Present';
+  const [year, month] = dateStr.split('-');
+  return month ? `${MONTHS[parseInt(month) - 1]} ${year}` : year;
+}
+
+function formatDateRange(start, end) {
+  return `${formatDate(start)} - ${formatDate(end)}`;
+}
+
+function calculateDuration(startDate, endDate) {
+  const [startYear, startMonth = 1] = startDate.split('-').map(Number);
+  const end = endDate ? endDate.split('-').map(Number) : [new Date().getFullYear(), new Date().getMonth() + 1];
+  const [endYear, endMonth = 1] = end;
+
+  let months = (endYear - startYear) * 12 + (endMonth - startMonth) + 1;
+  const years = Math.floor(months / 12);
+  months = months % 12;
+
+  const parts = [];
+  if (years > 0) parts.push(`${years} yr${years > 1 ? 's' : ''}`);
+  if (months > 0) parts.push(`${months} mo${months > 1 ? 's' : ''}`);
+  return parts.join(' ') || '1 mo';
+}
+
 function renderMarkdown(resume) {
   const { basics, work, education, languages, projects, freelance } = resume;
-
-  const formatDate = (dateStr) => {
-    if (!dateStr) return 'Present';
-    const [year, month] = dateStr.split('-');
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    return month ? `${months[parseInt(month) - 1]} ${year}` : year;
-  };
-
-  const formatDateRange = (start, end) => {
-    return `${formatDate(start)} - ${formatDate(end)}`;
-  };
 
   let md = `# ${basics.name}\n\n`;
   md += `**${basics.label}**\n\n`;
@@ -41,10 +57,10 @@ function renderMarkdown(resume) {
       if (job.location) meta.push(job.location);
       const metaStr = meta.length ? ` · ${meta.join(' · ')}` : '';
       const companyName = job.url ? `[${job.name}](${job.url})` : job.name;
-      const durationStr = job.duration ? ` · ${job.duration}` : '';
+      const duration = calculateDuration(job.startDate, job.endDate);
 
       md += `### ${job.position}\n`;
-      md += `**${companyName}**${metaStr} | ${formatDateRange(job.startDate, job.endDate)}${durationStr}\n\n`;
+      md += `**${companyName}**${metaStr} | ${formatDateRange(job.startDate, job.endDate)} · ${duration}\n\n`;
 
       if (job.highlights?.length) {
         job.highlights.forEach(h => {
@@ -59,7 +75,8 @@ function renderMarkdown(resume) {
   if (freelance?.length) {
     md += `## Freelance\n\n`;
     freelance.forEach(project => {
-      md += `- **${project.name}** (${project.period} · ${project.duration}): ${project.description}\n`;
+      const duration = calculateDuration(project.startDate, project.endDate);
+      md += `- **${project.name}** (${formatDateRange(project.startDate, project.endDate)} · ${duration}): ${project.description}\n`;
     });
     md += '\n';
   }
@@ -97,17 +114,6 @@ function renderMarkdown(resume) {
 function renderHTML(resume) {
   const { basics, work, education, languages, projects, freelance } = resume;
 
-  const formatDate = (dateStr) => {
-    if (!dateStr) return 'Present';
-    const [year, month] = dateStr.split('-');
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    return month ? `${months[parseInt(month) - 1]} ${year}` : year;
-  };
-
-  const formatDateRange = (start, end) => {
-    return `${formatDate(start)} - ${formatDate(end)}`;
-  };
-
   const workHTML = work?.map(job => {
     const meta = [];
     if (job.employmentType) meta.push(job.employmentType);
@@ -115,13 +121,13 @@ function renderHTML(resume) {
     if (job.location) meta.push(job.location);
     const metaStr = meta.length ? ` · ${meta.join(' · ')}` : '';
     const companyName = job.url ? `<a href="${job.url}">${job.name}</a>` : job.name;
+    const duration = calculateDuration(job.startDate, job.endDate);
 
-    const durationStr = job.duration ? ` · ${job.duration}` : '';
     return `
     <div class="entry">
       <div class="entry-header">
         <div class="entry-title">${job.position}</div>
-        <div class="entry-date">${formatDateRange(job.startDate, job.endDate)}${durationStr}</div>
+        <div class="entry-date">${formatDateRange(job.startDate, job.endDate)} · ${duration}</div>
       </div>
       <div class="entry-company">${companyName}${metaStr}</div>
       ${job.highlights?.length ? `
@@ -161,9 +167,10 @@ function renderHTML(resume) {
   `;
   }).join('') || '';
 
-  const freelanceHTML = freelance?.map(project =>
-    `<li><strong>${project.name}</strong> (${project.period} · ${project.duration}): ${project.description}</li>`
-  ).join('') || '';
+  const freelanceHTML = freelance?.map(project => {
+    const duration = calculateDuration(project.startDate, project.endDate);
+    return `<li><strong>${project.name}</strong> (${formatDateRange(project.startDate, project.endDate)} · ${duration}): ${project.description}</li>`;
+  }).join('') || '';
 
   // Format summary with paragraphs
   const summaryHTML = basics.summary?.split('\n\n').map(p =>
