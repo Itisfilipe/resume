@@ -1,8 +1,101 @@
 import fs from 'fs';
 import puppeteer from 'puppeteer';
 
+function renderMarkdown(resume) {
+  const { basics, work, education, languages, projects, freelance } = resume;
+
+  const formatDate = (dateStr) => {
+    if (!dateStr) return 'Present';
+    const [year, month] = dateStr.split('-');
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return month ? `${months[parseInt(month) - 1]} ${year}` : year;
+  };
+
+  const formatDateRange = (start, end) => {
+    return `${formatDate(start)} - ${formatDate(end)}`;
+  };
+
+  let md = `# ${basics.name}\n\n`;
+  md += `**${basics.label}**\n\n`;
+
+  // Contact info
+  const contacts = [];
+  if (basics.location) contacts.push(`${basics.location.region}, ${basics.location.countryCode}`);
+  if (basics.phone) contacts.push(basics.phone);
+  if (basics.email) contacts.push(`[${basics.email}](mailto:${basics.email})`);
+  basics.profiles?.forEach(p => contacts.push(`[${p.network}](${p.url})`));
+  md += contacts.join(' · ') + '\n\n';
+
+  // Summary
+  if (basics.summary) {
+    md += `## Summary\n\n${basics.summary}\n\n`;
+  }
+
+  // Experience
+  if (work?.length) {
+    md += `## Experience\n\n`;
+    work.forEach(job => {
+      const meta = [];
+      if (job.employmentType) meta.push(job.employmentType);
+      if (job.locationType) meta.push(job.locationType);
+      if (job.location) meta.push(job.location);
+      const metaStr = meta.length ? ` · ${meta.join(' · ')}` : '';
+      const companyName = job.url ? `[${job.name}](${job.url})` : job.name;
+      const durationStr = job.duration ? ` · ${job.duration}` : '';
+
+      md += `### ${job.position}\n`;
+      md += `**${companyName}**${metaStr} | ${formatDateRange(job.startDate, job.endDate)}${durationStr}\n\n`;
+
+      if (job.highlights?.length) {
+        job.highlights.forEach(h => {
+          md += `- ${h}\n`;
+        });
+        md += '\n';
+      }
+    });
+  }
+
+  // Freelance
+  if (freelance?.length) {
+    md += `## Freelance\n\n`;
+    freelance.forEach(project => {
+      md += `- **${project.name}** (${project.period} · ${project.duration}): ${project.description}\n`;
+    });
+    md += '\n';
+  }
+
+  // Projects
+  if (projects?.length) {
+    md += `## Projects\n\n`;
+    projects.forEach(project => {
+      const projectName = project.url ? `[${project.name}](${project.url})` : project.name;
+      md += `- **${projectName}**: ${project.description}\n`;
+    });
+    md += '\n';
+  }
+
+  // Education
+  if (education?.length) {
+    md += `## Education\n\n`;
+    education.forEach(edu => {
+      const institutionName = edu.url ? `[${edu.institution}](${edu.url})` : edu.institution;
+      const dateRange = edu.startDate ? `${formatDate(edu.startDate)} - ${formatDate(edu.endDate)}` : formatDate(edu.endDate);
+      md += `### ${edu.studyType}, ${edu.area}\n`;
+      md += `**${institutionName}** | ${dateRange}\n\n`;
+    });
+  }
+
+  // Languages
+  if (languages?.length) {
+    md += `## Languages\n\n`;
+    md += languages.map(lang => `${lang.language} (${lang.fluency})`).join(' · ') + '\n';
+  }
+
+  return md;
+}
+
 function renderHTML(resume) {
-  const { basics, work, education, languages } = resume;
+  const { basics, work, education, languages, projects, freelance } = resume;
 
   const formatDate = (dateStr) => {
     if (!dateStr) return 'Present';
@@ -23,11 +116,12 @@ function renderHTML(resume) {
     const metaStr = meta.length ? ` · ${meta.join(' · ')}` : '';
     const companyName = job.url ? `<a href="${job.url}">${job.name}</a>` : job.name;
 
+    const durationStr = job.duration ? ` · ${job.duration}` : '';
     return `
     <div class="entry">
       <div class="entry-header">
         <div class="entry-title">${job.position}</div>
-        <div class="entry-date">${formatDateRange(job.startDate, job.endDate)}</div>
+        <div class="entry-date">${formatDateRange(job.startDate, job.endDate)}${durationStr}</div>
       </div>
       <div class="entry-company">${companyName}${metaStr}</div>
       ${job.highlights?.length ? `
@@ -55,6 +149,20 @@ function renderHTML(resume) {
 
   const languagesHTML = languages?.map(lang =>
     `<div class="lang-item">${lang.language} (${lang.fluency})</div>`
+  ).join('') || '';
+
+  const projectsHTML = projects?.map(project => {
+    const projectName = project.url ? `<a href="${project.url}">${project.name}</a>` : project.name;
+    return `
+    <div class="entry">
+      <div class="entry-title">${projectName}</div>
+      <div class="entry-company">${project.description}</div>
+    </div>
+  `;
+  }).join('') || '';
+
+  const freelanceHTML = freelance?.map(project =>
+    `<li><strong>${project.name}</strong> (${project.period} · ${project.duration}): ${project.description}</li>`
   ).join('') || '';
 
   // Format summary with paragraphs
@@ -221,6 +329,22 @@ function renderHTML(resume) {
   </section>
   ` : ''}
 
+  ${freelance?.length ? `
+  <section class="section">
+    <h2 class="section-title">Freelance</h2>
+    <ul class="highlights">
+      ${freelanceHTML}
+    </ul>
+  </section>
+  ` : ''}
+
+  ${projects?.length ? `
+  <section class="section">
+    <h2 class="section-title">Projects</h2>
+    ${projectsHTML}
+  </section>
+  ` : ''}
+
   ${education?.length ? `
   <section class="section">
     <h2 class="section-title">Education</h2>
@@ -241,11 +365,12 @@ function renderHTML(resume) {
 async function exportResume(resumeFile, outputPdf) {
   const resume = JSON.parse(fs.readFileSync(resumeFile, 'utf8'));
   const html = renderHTML(resume);
+  const markdown = renderMarkdown(resume);
 
-  // Also save HTML for reference
-  const htmlFile = outputPdf.replace('.pdf', '.html');
-  fs.writeFileSync(htmlFile, html);
-  console.log(`Created ${htmlFile}`);
+  // Save markdown version
+  const mdFile = outputPdf.replace('.pdf', '.md');
+  fs.writeFileSync(mdFile, markdown);
+  console.log(`Created ${mdFile}`);
 
   const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();

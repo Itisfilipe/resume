@@ -1,13 +1,12 @@
 {
-  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
   "basics": {
     "name": "Filipe Teixeira Amaral",
     "label": "Senior Software Engineer",
     "email": "filipetamaral@gmail.com",
     "phone": "+55 (48) 9 9623-2663",
-    "summary": "Full-Stack Engineer with nearly a decade of experience building SaaS platforms in healthcare, fintech, and insurance. I deliver end-to-end product features from GraphQL APIs and compliance-driven systems to modern React frontends and high-performance data pipelines.\n\nI've built care plan modules, prior authorization workflows, real-time pricing engines with multi-vendor integrations, and wealth management platforms. I focus on scalable architecture, regulatory compliance, and the development of reliable systems.\n\nTech: Python, TypeScript, Django, FastAPI, NestJS, React, Next.js, GraphQL, PostgreSQL, MySQL, AWS, Terraform",
+    "summary": "Full-Stack Engineer with 9+ years of experience building SaaS platforms in healthcare, fintech, and insurance. I deliver end-to-end product features—from GraphQL APIs and compliance-driven systems to modern React frontends and high-performance data pipelines.\n\nI've built care plan modules, prior authorization workflows, real-time pricing engines with multi-vendor integrations, and wealth management platforms. I focus on scalable architecture, data-intensive systems, and shipping reliable software. Comfortable working with AI tools and integrating LLM-powered features into production systems.\n\nTech: Python, TypeScript, JavaScript, FastAPI, Django, Flask, NestJS, React, Next.js, Vue.js, GraphQL, REST, PostgreSQL, MySQL, Redis, AWS , Terraform, Docker, Git",
     "location": {
-      "city": "Tres Passos",
+      "city": "Três Passos",
       "region": "Rio Grande do Sul",
       "countryCode": "Brazil"
     },
@@ -32,6 +31,7 @@
       "locationType": "Remote",
       "url": "https://www.drchrono.com",
       "startDate": "2021-08",
+      "duration": "4 yrs 4 mos",
       "highlights": [
         "Led ONC HTI-1 and USCDI v3 certification compliance, implementing provenance tracking and persistent ID versioning for 15+ clinical resource types",
         "Built Care Plan module end-to-end: GraphQL schema, React frontend with drawers/modals, care team management, and audit logging",
@@ -42,69 +42,19 @@
       ]
     },
     {
-      "name": "DevStride",
-      "position": "Senior Software Engineer",
-      "employmentType": "Contract",
-      "locationType": "Remote",
-      "startDate": "2025-11",
-      "highlights": [
-        "Building a full-stack wealth management platform using NestJS, Next.js, and TypeScript in a Turborepo monorepo",
-        "Architected type-safe API client infrastructure with OpenAPI auto-generation and TanStack Query integration",
-        "Established CI/CD pipeline, unified linting configs, and developer tooling across the monorepo"
-      ]
-    },
-    {
-      "name": "Surton",
-      "position": "Senior Software Engineer",
-      "employmentType": "Contract",
-      "locationType": "Remote",
-      "url": "https://www.surton.com",
-      "startDate": "2024-08",
-      "endDate": "2025-03",
-      "highlights": [
-        "Built FastAPI backend for pharmaceutical pricing platform, integrating multiple claims processor vendors (Optum, RxLogic, Cervey, MedOne) for real-time drug price comparison",
-        "Implemented DynamoDB caching layer and transaction tracking for high-throughput price lookups",
-        "Managed AWS infrastructure (Terraform), including EventBridge triggers and SQS queues"
-      ]
-    },
-    {
-      "name": "Tomorrow Health",
-      "position": "Senior Software Engineer",
-      "employmentType": "Contract",
-      "locationType": "Remote",
-      "url": "https://www.tomorrowhealth.com",
-      "startDate": "2023-12",
-      "endDate": "2024-06",
-      "highlights": [
-        "Built Prior Authorization Request system end-to-end: GraphQL backend (Python/Django) and React frontend with tables, drawers, and timeline components",
-        "Implemented PA cover sheet generation, Title XIX (Medicaid) form integration, and fax submission workflow",
-        "Extended insurer data model with state-specific prior authorization configurations"
-      ]
-    },
-    {
-      "name": "Rise Financial",
-      "position": "Back End Developer",
-      "employmentType": "Contract",
-      "locationType": "Remote",
-      "startDate": "2022-07",
-      "endDate": "2022-11",
-      "highlights": [
-        "Restructured backend architecture in Django and integrated with Very Good Security for PCI compliance",
-        "Secured credit card data handling and enhanced system scalability"
-      ]
-    },
-    {
       "name": "BriteCore",
-      "position": "Senior Software Engineer",
+      "position": "Lead / Senior Software Engineer",
       "employmentType": "Full-time",
       "locationType": "Remote",
       "url": "https://www.britecore.com",
       "startDate": "2017-08",
       "endDate": "2021-06",
+      "duration": "3 yrs 10 mos",
       "highlights": [
-        "Replaced legacy insurance system with modular components using Python, Django, Flask, and VueJS on AWS",
-        "Developed serverless authentication service for 50+ insurance companies",
-        "Supported clients by proposing features and resolving bugs"
+        "Led a team of 4 engineers to integrate a new insurance client—resulting in $2M+ in premium sold to 500+ customers",
+        "Developed serverless authentication service (Lambda, Cognito) with SSO and MFA for 50+ insurance companies",
+        "Replaced legacy system with modular microservices using Python, Django, Flask, and Vue.js on AWS",
+        "Performed code reviews, mentored engineers, and translated client requirements into technical specifications"
       ]
     },
     {
@@ -112,15 +62,17 @@
       "position": "Frontend Engineer",
       "employmentType": "Full-time",
       "locationType": "Remote",
-      "url": "http://localhost.company",
+      "url": "https://www.localhost.company",
       "startDate": "2016-06",
       "endDate": "2017-07",
+      "duration": "1 yr 1 mo",
       "highlights": [
-        "Maintained and supported applications built in Angular 1.5 and AngularJS"
+        "Built frontend for an online marketplace using Angular 1",
+        "Migrated a collaborative document platform from Angular 1 to Angular 2"
       ]
     },
     {
-      "name": "Universidade Federal de Sao Joao del-Rei",
+      "name": "Universidade Federal de São João del-Rei",
       "position": "Software Engineer",
       "employmentType": "Internship",
       "locationType": "On-site",
@@ -128,9 +80,44 @@
       "location": "São João del Rei, Brazil",
       "startDate": "2014-04",
       "endDate": "2016-06",
+      "duration": "2 yrs 2 mos",
       "highlights": [
-        "Developed internal tools for university administrative staff using PHP and MySQL"
+        "Refactored educational platform interface serving 1k+ teachers and 15k+ students",
+        "Architected and developed an educational platform for primary school students using Flask and jQuery"
       ]
+    }
+  ],
+  "freelance": [
+    {
+      "name": "Advis",
+      "period": "Nov 2025 - Present",
+      "duration": "1 mo",
+      "description": "Building wealth management platform with NestJS, Next.js, TypeScript; architected type-safe API client with OpenAPI and TanStack Query"
+    },
+    {
+      "name": "RxPatterns",
+      "period": "Aug 2024 - Mar 2025",
+      "duration": "8 mos",
+      "description": "Built FastAPI backend for pharmaceutical pricing, integrating Optum, RxLogic, Cervey, MedOne; DynamoDB caching, AWS infrastructure (Terraform)"
+    },
+    {
+      "name": "Tomorrow Health",
+      "period": "Dec 2023 - Jun 2024",
+      "duration": "7 mos",
+      "description": "Built Prior Authorization system end-to-end—GraphQL/Django backend and React frontend with Medicaid form integration"
+    },
+    {
+      "name": "Rise Financial",
+      "period": "Jul 2022 - Nov 2022",
+      "duration": "5 mos",
+      "description": "Restructured Django backend with Very Good Security integration for PCI compliance"
+    }
+  ],
+  "projects": [
+    {
+      "name": "ccdakit",
+      "description": "Open-source Python library for generating HL7 C-CDA clinical documents",
+      "url": "https://github.com/Itisfilipe/ccdakit"
     }
   ],
   "education": [
@@ -152,10 +139,5 @@
       "language": "Portuguese",
       "fluency": "Native"
     }
-  ],
-  "meta": {
-    "canonical": "https://raw.githubusercontent.com/Itisfilipe/resume/main/resume.json",
-    "version": "v1.0.0",
-    "lastModified": "2025-12-09"
-  }
+  ]
 }
