@@ -6,7 +6,7 @@
 
 ```bash
 npm install
-npm run export:pdf    # Generate PDF and Markdown
+npm run export    # Generate PDF and Markdown
 ```
 
 ## Structure
