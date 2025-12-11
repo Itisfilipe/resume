@@ -241,11 +241,12 @@ function renderHTML(resume) {
 
     /* Sections */
     .section {
+      margin-top: 5pt;
       margin-bottom: 5pt;
     }
 
     .section-title {
-      font-size: 9.5pt;
+      font-size: 10pt;
       font-weight: bold;
       text-decoration: underline;
       margin-bottom: 3pt;
@@ -331,14 +332,14 @@ function renderHTML(resume) {
 
   ${work?.length ? `
   <section class="section">
-    <h2 class="section-title">Experience</h2>
+    <h2 class="section-title">Relevant Experience</h2>
     ${workHTML}
   </section>
   ` : ''}
 
   ${freelance?.length ? `
   <section class="section">
-    <h2 class="section-title">Freelance</h2>
+    <h2 class="section-title">Other Projects</h2>
     <ul class="highlights">
       ${freelanceHTML}
     </ul>
@@ -347,7 +348,7 @@ function renderHTML(resume) {
 
   ${projects?.length ? `
   <section class="section">
-    <h2 class="section-title">Projects</h2>
+    <h2 class="section-title">Open Source</h2>
     ${projectsHTML}
   </section>
   ` : ''}
