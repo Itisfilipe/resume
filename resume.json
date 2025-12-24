@@ -31,12 +31,11 @@
       "url": "https://www.drchrono.com",
       "startDate": "2021-08",
       "highlights": [
-        "Led ONC HTI-1 and USCDI v3 certification compliance, implementing provenance tracking and persistent ID versioning for 15+ clinical resource types",
+        "Led ONC HTI-1 and USCDI v3 certification compliance, including documentation and testing",
         "Built Care Plan module end-to-end: GraphQL schema, React frontend with drawers/modals, care team management, and audit logging",
         "Developed SMART on FHIR integration platform with management dashboard and JWT authentication",
-        "Implemented annual MIPS/eCQM quality measure updates (2022-2025) and QRDA exports for Cypress certification",
-        "Optimized bulk C-CDA export system—resolved race conditions, added performance improvements for large practices",
-        "Built asynchronous C-CDA export API and contributed to React Calendar rebuild"
+        "Implemented annual MIPS/eCQM quality measure updates (2022-2025) ensuring compliance with HL7 standards",
+        "Architected and optimized QRDA and C-CDA bulk document generation pipelines, using cron jobs and Celery workers"
       ]
     },
     {
@@ -70,14 +69,14 @@
     {
       "name": "Universidade Federal de São João del-Rei",
       "position": "Software Engineer",
-      "employmentType": "Internship",
+      "employmentType": "Part-time",
       "locationType": "On-site",
       "url": "https://www.ufsj.edu.br",
       "location": "São João del Rei, Brazil",
       "startDate": "2014-04",
       "endDate": "2016-06",
       "highlights": [
-        "Refactored educational platform interface serving 1k+ teachers and 15k+ students",
+        "Refactored educational platform public UI, serving 1k+ teachers and 15k+ students",
         "Architected and developed an educational platform for primary school students using Flask and jQuery"
       ]
     }

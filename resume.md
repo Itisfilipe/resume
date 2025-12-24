@@ -17,12 +17,11 @@ Tech: Python, TypeScript, JavaScript, FastAPI, Django, Flask, NestJS, React, Nex
 ### Senior Software Engineer
 **[DrChrono](https://www.drchrono.com)** · Full-time · Remote | August 2021 - Present · 4 yrs 5 mos
 
-- Led ONC HTI-1 and USCDI v3 certification compliance, implementing provenance tracking and persistent ID versioning for 15+ clinical resource types
+- Led ONC HTI-1 and USCDI v3 certification compliance, including documentation and testing
 - Built Care Plan module end-to-end: GraphQL schema, React frontend with drawers/modals, care team management, and audit logging
 - Developed SMART on FHIR integration platform with management dashboard and JWT authentication
-- Implemented annual MIPS/eCQM quality measure updates (2022-2025) and QRDA exports for Cypress certification
-- Optimized bulk C-CDA export system—resolved race conditions, added performance improvements for large practices
-- Built asynchronous C-CDA export API and contributed to React Calendar rebuild
+- Implemented annual MIPS/eCQM quality measure updates (2022-2025) ensuring compliance with HL7 standards
+- Architected and optimized QRDA and C-CDA bulk document generation pipelines, using cron jobs and Celery workers
 
 ### Lead / Senior Software Engineer
 **[BriteCore](https://www.britecore.com)** · Full-time · Remote | August 2017 - June 2021 · 3 yrs 11 mos
@@ -39,9 +38,9 @@ Tech: Python, TypeScript, JavaScript, FastAPI, Django, Flask, NestJS, React, Nex
 - Migrated a collaborative document platform from Angular 1 to Angular 2
 
 ### Software Engineer
-**[Universidade Federal de São João del-Rei](https://www.ufsj.edu.br)** · Internship · On-site · São João del Rei, Brazil | April 2014 - June 2016 · 2 yrs 3 mos
+**[Universidade Federal de São João del-Rei](https://www.ufsj.edu.br)** · Part-time · On-site · São João del Rei, Brazil | April 2014 - June 2016 · 2 yrs 3 mos
 
-- Refactored educational platform interface serving 1k+ teachers and 15k+ students
+- Refactored educational platform public UI, serving 1k+ teachers and 15k+ students
 - Architected and developed an educational platform for primary school students using Flask and jQuery
 
 ## Freelance
