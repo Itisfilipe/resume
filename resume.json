@@ -4,12 +4,12 @@
     "name": "Filipe Teixeira Amaral",
     "label": "Senior Software Engineer",
     "email": "filipetamaral@gmail.com",
-    "phone": "+55 (32) 9 8879-4370",
-    "summary": "Full-Stack Engineer with nearly a decade of experience building SaaS platforms in healthcare, fintech, and insurance. I deliver end-to-end product features from GraphQL APIs and compliance-driven systems to modern React frontends and high-performance data pipelines.\n\nI've built care plan modules, prior authorization workflows, real-time pricing engines with multi-vendor integrations, and wealth management platforms. I focus on scalable architecture, regulatory compliance, and the development of reliable systems.\n\nTech: Python, TypeScript, Django, FastAPI, NestJS, React, Next.js, GraphQL, PostgreSQL, DynamoDB, AWS, Terraform",
+    "phone": "+55 (48) 9 9623-2663",
+    "summary": "Full-Stack Engineer with nearly a decade of experience building SaaS platforms in healthcare, fintech, and insurance. I deliver end-to-end product features from GraphQL APIs and compliance-driven systems to modern React frontends and high-performance data pipelines.\n\nI've built care plan modules, prior authorization workflows, real-time pricing engines with multi-vendor integrations, and wealth management platforms. I focus on scalable architecture, regulatory compliance, and the development of reliable systems.\n\nTech: Python, TypeScript, Django, FastAPI, NestJS, React, Next.js, GraphQL, PostgreSQL, MySQL, AWS, Terraform",
     "location": {
-      "city": "Florianópolis",
-      "region": "Santa Catarina",
-      "countryCode": "BR"
+      "city": "Tres Passos",
+      "region": "Rio Grande do Sul",
+      "countryCode": "Brazil"
     },
     "profiles": [
       {
@@ -44,7 +44,7 @@
     {
       "name": "DevStride",
       "position": "Senior Software Engineer",
-      "employmentType": "Full-time",
+      "employmentType": "Contract",
       "locationType": "Remote",
       "startDate": "2025-11",
       "highlights": [
@@ -122,13 +122,15 @@
     {
       "name": "Universidade Federal de Sao Joao del-Rei",
       "position": "Software Engineer",
-      "employmentType": "Part-time",
+      "employmentType": "Internship",
       "locationType": "On-site",
       "url": "https://www.ufsj.edu.br",
       "location": "São João del Rei, Brazil",
       "startDate": "2014-04",
       "endDate": "2016-06",
-      "highlights": []
+      "highlights": [
+        "Developed internal tools for university administrative staff using PHP and MySQL"
+      ]
     }
   ],
   "education": [
