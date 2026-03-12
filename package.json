@@ -1,30 +1,16 @@
 {
   "name": "filipe-resume",
   "version": "1.0.0",
-  "description": "Filipe Amaral's resume using JSON Resume standard",
+  "description": "Filipe Amaral's resume",
   "scripts": {
-    "serve": "resume serve --theme elegant",
-    "export:pdf": "node render-resume.mjs resume.json resume.pdf",
-    "validate": "resume validate"
+    "export": "node render-resume.mjs resume.json resume.pdf"
   },
   "keywords": [
-    "resume",
-    "json-resume"
+    "resume"
   ],
   "author": "Filipe Amaral",
   "license": "MIT",
   "dependencies": {
-    "jsonresume-theme-elegant": "^1.16.1",
-    "jsonresume-theme-even": "^0.26.1",
-    "jsonresume-theme-kendall": "^0.2.0",
-    "jsonresume-theme-professional": "^1.1.0",
-    "jsonresume-theme-stackoverflow": "^2.1.0",
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1",
-    "resume-cli": "^3.0.8",
-    "styled-components": "^6.1.19"
-  },
-  "devDependencies": {
-    "resumed": "^6.1.0"
+    "puppeteer": "^24.0.0"
   }
 }

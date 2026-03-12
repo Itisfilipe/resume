@@ -1,19 +1,118 @@
 import fs from 'fs';
 import puppeteer from 'puppeteer';
 
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+function formatDate(dateStr) {
+  if (!dateStr) return 'Present';
+  const [year, month] = dateStr.split('-');
+  return month ? `${MONTHS[parseInt(month) - 1]} ${year}` : year;
+}
+
+function formatDateRange(start, end) {
+  return `${formatDate(start)} - ${formatDate(end)}`;
+}
+
+function calculateDuration(startDate, endDate) {
+  const [startYear, startMonth = 1] = startDate.split('-').map(Number);
+  const end = endDate ? endDate.split('-').map(Number) : [new Date().getFullYear(), new Date().getMonth() + 1];
+  const [endYear, endMonth = 1] = end;
+
+  let months = (endYear - startYear) * 12 + (endMonth - startMonth) + 1;
+  const years = Math.floor(months / 12);
+  months = months % 12;
+
+  const parts = [];
+  if (years > 0) parts.push(`${years} yr${years > 1 ? 's' : ''}`);
+  if (months > 0) parts.push(`${months} mo${months > 1 ? 's' : ''}`);
+  return parts.join(' ') || '1 mo';
+}
+
+function renderMarkdown(resume) {
+  const { basics, work, education, languages, projects, freelance } = resume;
+
+  let md = `# ${basics.name}\n\n`;
+  md += `**${basics.label}**\n\n`;
+
+  // Contact info
+  const contacts = [];
+  if (basics.location?.countryCode) contacts.push(basics.location.countryCode);
+  if (basics.phone) contacts.push(basics.phone);
+  if (basics.email) contacts.push(`[${basics.email}](mailto:${basics.email})`);
+  basics.profiles?.forEach(p => contacts.push(`[${p.network}](${p.url})`));
+  md += contacts.join(' · ') + '\n\n';
+
+  // Summary
+  if (basics.summary) {
+    md += `## Summary\n\n${basics.summary}\n\n`;
+  }
+
+  // Experience
+  if (work?.length) {
+    md += `## Experience\n\n`;
+    work.forEach(job => {
+      const meta = [];
+      if (job.employmentType) meta.push(job.employmentType);
+      if (job.locationType) meta.push(job.locationType);
+      if (job.location) meta.push(job.location);
+      const metaStr = meta.length ? ` · ${meta.join(' · ')}` : '';
+      const companyName = job.url ? `[${job.name}](${job.url})` : job.name;
+      const duration = calculateDuration(job.startDate, job.endDate);
+
+      md += `### ${job.position}\n`;
+      md += `**${companyName}**${metaStr} | ${formatDateRange(job.startDate, job.endDate)} · ${duration}\n\n`;
+
+      if (job.highlights?.length) {
+        job.highlights.forEach(h => {
+          md += `- ${h}\n`;
+        });
+        md += '\n';
+      }
+    });
+  }
+
+  // Freelance
+  if (freelance?.length) {
+    md += `## Freelance\n\n`;
+    freelance.forEach(project => {
+      const duration = calculateDuration(project.startDate, project.endDate);
+      md += `- **${project.name}** (${formatDateRange(project.startDate, project.endDate)} · ${duration}): ${project.description}\n`;
+    });
+    md += '\n';
+  }
+
+  // Projects
+  if (projects?.length) {
+    md += `## Projects\n\n`;
+    projects.forEach(project => {
+      const projectName = project.url ? `[${project.name}](${project.url})` : project.name;
+      md += `- **${projectName}**: ${project.description}\n`;
+    });
+    md += '\n';
+  }
+
+  // Education
+  if (education?.length) {
+    md += `## Education\n\n`;
+    education.forEach(edu => {
+      const institutionName = edu.url ? `[${edu.institution}](${edu.url})` : edu.institution;
+      const dateRange = edu.startDate ? `${formatDate(edu.startDate)} - ${formatDate(edu.endDate)}` : formatDate(edu.endDate);
+      md += `### ${edu.studyType}, ${edu.area}\n`;
+      md += `**${institutionName}** | ${dateRange}\n\n`;
+    });
+  }
+
+  // Languages
+  if (languages?.length) {
+    md += `## Languages\n\n`;
+    md += languages.map(lang => `${lang.language} (${lang.fluency})`).join(' · ') + '\n';
+  }
+
+  return md;
+}
+
 function renderHTML(resume) {
-  const { basics, work, education, languages } = resume;
-
-  const formatDate = (dateStr) => {
-    if (!dateStr) return 'Present';
-    const [year, month] = dateStr.split('-');
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    return month ? `${months[parseInt(month) - 1]} ${year}` : year;
-  };
-
-  const formatDateRange = (start, end) => {
-    return `${formatDate(start)} - ${formatDate(end)}`;
-  };
+  const { basics, work, education, languages, projects, freelance } = resume;
 
   const workHTML = work?.map(job => {
     const meta = [];
@@ -22,12 +121,13 @@ function renderHTML(resume) {
     if (job.location) meta.push(job.location);
     const metaStr = meta.length ? ` · ${meta.join(' · ')}` : '';
     const companyName = job.url ? `<a href="${job.url}">${job.name}</a>` : job.name;
+    const duration = calculateDuration(job.startDate, job.endDate);
 
     return `
     <div class="entry">
       <div class="entry-header">
         <div class="entry-title">${job.position}</div>
-        <div class="entry-date">${formatDateRange(job.startDate, job.endDate)}</div>
+        <div class="entry-date">${formatDateRange(job.startDate, job.endDate)} · ${duration}</div>
       </div>
       <div class="entry-company">${companyName}${metaStr}</div>
       ${job.highlights?.length ? `
@@ -56,6 +156,21 @@ function renderHTML(resume) {
   const languagesHTML = languages?.map(lang =>
     `<div class="lang-item">${lang.language} (${lang.fluency})</div>`
   ).join('') || '';
+
+  const projectsHTML = projects?.map(project => {
+    const projectName = project.url ? `<a href="${project.url}">${project.name}</a>` : project.name;
+    return `
+    <div class="entry">
+      <div class="entry-title">${projectName}</div>
+      <div class="entry-company">${project.description}</div>
+    </div>
+  `;
+  }).join('') || '';
+
+  const freelanceHTML = freelance?.map(project => {
+    const duration = calculateDuration(project.startDate, project.endDate);
+    return `<li><strong>${project.name}</strong> (${formatDateRange(project.startDate, project.endDate)} · ${duration}): ${project.description}</li>`;
+  }).join('') || '';
 
   // Format summary with paragraphs
   const summaryHTML = basics.summary?.split('\n\n').map(p =>
@@ -126,11 +241,12 @@ function renderHTML(resume) {
 
     /* Sections */
     .section {
+      margin-top: 8pt;
       margin-bottom: 5pt;
     }
 
     .section-title {
-      font-size: 9.5pt;
+      font-size: 10pt;
       font-weight: bold;
       text-decoration: underline;
       margin-bottom: 3pt;
@@ -200,7 +316,7 @@ function renderHTML(resume) {
   <header class="header">
     <div class="name">${basics.name}</div>
     <div class="contact-info">
-      <span>${basics.location?.region}, ${basics.location?.countryCode}</span>
+      <span>${basics.location?.countryCode}</span>
       <span>${basics.phone}</span>
       <span><a href="mailto:${basics.email}">${basics.email}</a></span>
       ${basics.profiles?.map(p => `<span><a href="${p.url}">${p.url}</a></span>`).join('') || ''}
@@ -216,8 +332,24 @@ function renderHTML(resume) {
 
   ${work?.length ? `
   <section class="section">
-    <h2 class="section-title">Experience</h2>
+    <h2 class="section-title">Relevant Experience</h2>
     ${workHTML}
+  </section>
+  ` : ''}
+
+  ${freelance?.length ? `
+  <section class="section">
+    <h2 class="section-title">Other Projects</h2>
+    <ul class="highlights">
+      ${freelanceHTML}
+    </ul>
+  </section>
+  ` : ''}
+
+  ${projects?.length ? `
+  <section class="section">
+    <h2 class="section-title">Open Source</h2>
+    ${projectsHTML}
   </section>
   ` : ''}
 
@@ -241,11 +373,12 @@ function renderHTML(resume) {
 async function exportResume(resumeFile, outputPdf) {
   const resume = JSON.parse(fs.readFileSync(resumeFile, 'utf8'));
   const html = renderHTML(resume);
+  const markdown = renderMarkdown(resume);
 
-  // Also save HTML for reference
-  const htmlFile = outputPdf.replace('.pdf', '.html');
-  fs.writeFileSync(htmlFile, html);
-  console.log(`Created ${htmlFile}`);
+  // Save markdown version
+  const mdFile = outputPdf.replace('.pdf', '.md');
+  fs.writeFileSync(mdFile, markdown);
+  console.log(`Created ${mdFile}`);
 
   const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();
