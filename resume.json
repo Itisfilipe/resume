@@ -16,6 +16,11 @@
         "network": "LinkedIn",
         "username": "itisfilipe",
         "url": "https://linkedin.com/in/itisfilipe"
+      },
+      {
+        "network": "GitHub",
+        "username": "itisfilipe",
+        "url": "https://github.com/itisfilipe"
       }
     ]
   },
@@ -53,6 +58,7 @@
       "position": "Senior Software Engineer",
       "employmentType": "Contract",
       "locationType": "Remote",
+      "url": "https://www.surton.com",
       "startDate": "2024-08",
       "endDate": "2025-03",
       "highlights": [
@@ -106,6 +112,7 @@
       "position": "Frontend Engineer",
       "employmentType": "Full-time",
       "locationType": "Remote",
+      "url": "http://localhost.company",
       "startDate": "2016-06",
       "endDate": "2017-07",
       "highlights": [
@@ -117,6 +124,7 @@
       "position": "Software Engineer",
       "employmentType": "Part-time",
       "locationType": "On-site",
+      "url": "https://www.ufsj.edu.br",
       "location": "São João del Rei, Brazil",
       "startDate": "2014-04",
       "endDate": "2016-06",
@@ -126,6 +134,7 @@
   "education": [
     {
       "institution": "Universidade Federal de São João del-Rei",
+      "url": "https://www.ufsj.edu.br",
       "area": "Computer Science",
       "studyType": "Bachelor of Science",
       "startDate": "2012",
