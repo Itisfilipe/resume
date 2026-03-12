@@ -1,0 +1,51 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
+  "basics": {
+    "name": "Filipe Amaral",
+    "label": "Senior Full-Stack Software Engineer",
+    "email": "filipetamaral@gmail.com",
+    "phone": "+55 (48) 9 9623-2663",
+    "summary": "Full-Stack Engineer with 9 years building SaaS in healthcare, fintech, and insurance.",
+    "location": {"city": "Florianópolis, SC", "countryCode": "BR"},
+    "profiles": [
+      {"network": "LinkedIn", "url": "https://linkedin.com/in/itisfilipe"},
+      {"network": "GitHub", "url": "https://github.com/Itisfilipe"}
+    ]
+  },
+  "work": [
+    {
+      "name": "Advis",
+      "position": "Senior Software Engineer",
+      "startDate": "2025-11",
+      "highlights": ["Wealth management platform: NestJS, Next.js, TypeScript"]
+    },
+    {
+      "name": "Surton / RxPartner",
+      "position": "Senior Software Engineer",
+      "startDate": "2024-08",
+      "endDate": "2025-03",
+      "highlights": ["FastAPI pharmaceutical pricing, multi-vendor integrations"]
+    },
+    {
+      "name": "DrChrono",
+      "position": "Senior Software Engineer II",
+      "startDate": "2021-08",
+      "highlights": ["ONC certification; Care Plan module; SMART on FHIR"]
+    },
+    {
+      "name": "BriteCore",
+      "position": "Senior Software Engineer",
+      "startDate": "2017-12",
+      "endDate": "2021-06",
+      "highlights": ["Insurance platform for 50+ companies: Python, Django, AWS"]
+    }
+  ],
+  "education": [
+    {"institution": "UFSJ", "area": "Computer Science", "studyType": "B.S.", "endDate": "2016"}
+  ],
+  "skills": [
+    {"name": "Backend", "keywords": ["Python", "Django", "FastAPI", "NestJS", "GraphQL"]},
+    {"name": "Frontend", "keywords": ["TypeScript", "React", "Next.js", "Vue.js"]},
+    {"name": "Cloud", "keywords": ["AWS", "PostgreSQL", "DynamoDB", "Terraform"]}
+  ]
+}
