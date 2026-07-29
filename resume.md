@@ -15,7 +15,7 @@ Tech: Python, TypeScript, JavaScript, FastAPI, Django, Flask, NestJS, React, Nex
 ## Experience
 
 ### Senior Software Engineer
-**[DrChrono](https://www.drchrono.com)** · Full-time · Remote | August 2021 - Present · 4 yrs 8 mos
+**[DrChrono](https://www.drchrono.com)** · Full-time · Remote | August 2021 - Present · 5 yrs
 
 - Led ONC HTI-1 and USCDI v3 certification compliance, including documentation and testing
 - Built Care Plan module end-to-end: GraphQL schema, React frontend with drawers/modals, care team management, and audit logging
