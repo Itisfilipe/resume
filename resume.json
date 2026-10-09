@@ -3,10 +3,9 @@
     "name": "Filipe Teixeira Amaral",
     "label": "Senior Software Engineer",
     "email": "filipetamaral@gmail.com",
-    "phone": "+55 (48) 9 9623-2663",
-    "summary": "Full-Stack Engineer with 10+ years of experience building SaaS platforms in healthcare, fintech, and insurance. I deliver end-to-end product features—from GraphQL APIs and compliance-driven systems to modern React frontends and high-performance data pipelines.\n\nI've built care plan modules, prior authorization workflows, real-time pricing engines with multi-vendor integrations, and wealth management platforms. I focus on scalable architecture, data-intensive systems, and shipping reliable software. Comfortable working with AI tools and integrating LLM-powered features into production systems.\n\nTech: Python, TypeScript, JavaScript, FastAPI, Django, Flask, NestJS, React, Next.js, Vue.js, GraphQL, REST, PostgreSQL, MySQL, Redis, AWS, Terraform, Docker, Git",
+    "phone": "+55 48 99623-2663",
+    "summary": "Full-stack engineer with 12 years building SaaS in healthcare, fintech, and insurance: GraphQL and REST APIs, compliance-critical systems, React frontends, and data-intensive pipelines.\n\nSolo founder of Trader Leap, a trading journal SaaS taken to public beta with coding agents: domain-specific reviewer agents, cross-model verification, and a review gate on every commit, shipping 12 releases in six months.",
     "location": {
-      "region": "Rio Grande do Sul",
       "countryCode": "Brazil"
     },
     "profiles": [
@@ -22,6 +21,74 @@
       }
     ]
   },
+  "skills": [
+    {
+      "name": "AI Engineering",
+      "keywords": [
+        "Claude Code",
+        "Codex",
+        "multi-agent review workflows",
+        "subagent design",
+        "cross-model verification",
+        "context engineering",
+        "retrieval-backed knowledge bases",
+        "agent hooks and gates",
+        "spec-driven development"
+      ]
+    },
+    {
+      "name": "Languages and Backend",
+      "keywords": [
+        "Python",
+        "TypeScript",
+        "JavaScript",
+        "SQL",
+        "Django",
+        "FastAPI",
+        "Flask",
+        "NestJS",
+        "GraphQL",
+        "REST",
+        "Celery"
+      ]
+    },
+    {
+      "name": "Frontend",
+      "keywords": [
+        "React",
+        "Next.js",
+        "Vue.js",
+        "Tailwind CSS"
+      ]
+    },
+    {
+      "name": "Data and Infrastructure",
+      "keywords": [
+        "PostgreSQL",
+        "MySQL",
+        "Redis",
+        "DynamoDB",
+        "Supabase",
+        "AWS",
+        "Terraform",
+        "Docker",
+        "Vercel",
+        "CI/CD"
+      ]
+    },
+    {
+      "name": "Healthcare Interoperability",
+      "keywords": [
+        "HL7",
+        "FHIR",
+        "SMART on FHIR",
+        "C-CDA",
+        "QRDA",
+        "MIPS/eCQM",
+        "ONC certification"
+      ]
+    }
+  ],
   "work": [
     {
       "name": "DrChrono",
@@ -31,11 +98,24 @@
       "url": "https://www.drchrono.com",
       "startDate": "2021-08",
       "highlights": [
-        "Led ONC HTI-1 and USCDI v3 certification compliance, including documentation and testing",
-        "Built Care Plan module end-to-end: GraphQL schema, React frontend with drawers/modals, care team management, and audit logging",
-        "Developed SMART on FHIR integration platform with management dashboard and JWT authentication",
-        "Implemented annual MIPS/eCQM quality measure updates (2022-2025) ensuring compliance with HL7 standards",
-        "Architected and optimized QRDA and C-CDA bulk document generation pipelines, using cron jobs and Celery workers"
+        "Built clinical quality measure calculation and QRDA I/III export, implementing 10 CMS eCQMs across 2022-2026",
+        "Led ONC HTI-1 and USCDI v3 compliance for an EHR certified against 40 criteria and 12 CQMs (Drummond)",
+        "Owned C-CDA and EHI bulk export for five years at 99.7% completion: race conditions, memory pressure, P0 response",
+        "Delivered SureScripts e-prescribing: formulary and benefits, medication history, eligibility, controlled substances",
+        "Built Care Plan and SMART on FHIR management: TypeScript/React, GraphQL schema, JWT issuance, audit logging",
+        "Cut C-CDA generation queries 37% with a thread-local prefetch cache that every existing call site inherited"
+      ]
+    },
+    {
+      "name": "Trader Leap",
+      "position": "Founder and Solo Engineer",
+      "locationType": "Remote",
+      "url": "https://www.traderleap.com",
+      "startDate": "2026-02",
+      "highlights": [
+        "Built and shipped a trading journal SaaS to public beta, solo, with Claude Code and Codex: 12 releases in six months",
+        "Agent output treated as untrusted: five domain reviewers and a Claude/Codex cross-review, blocking at commit until they run",
+        "Agents work from a maintained architecture and decision wiki, so reviews run against current invariants"
       ]
     },
     {
@@ -47,7 +127,7 @@
       "startDate": "2017-08",
       "endDate": "2021-06",
       "highlights": [
-        "Led a team of 4 engineers to integrate a new insurance client—resulting in $2M+ in premium sold to 500+ customers",
+        "Led a team of 4 engineers to integrate a new insurance client, resulting in $2M+ in premium sold to 500+ customers",
         "Developed serverless authentication service (Lambda, Cognito) with SSO and MFA for 50+ insurance companies",
         "Replaced legacy system with modular microservices using Python, Django, Flask, and Vue.js on AWS",
         "Performed code reviews, mentored engineers, and translated client requirements into technical specifications"
@@ -60,11 +140,7 @@
       "locationType": "Remote",
       "url": "https://www.localhost.company",
       "startDate": "2016-06",
-      "endDate": "2017-07",
-      "highlights": [
-        "Built frontend for an online marketplace using Angular 1",
-        "Migrated a collaborative document platform from Angular 1 to Angular 2"
-      ]
+      "endDate": "2017-07"
     },
     {
       "name": "Universidade Federal de São João del-Rei",
@@ -72,46 +148,34 @@
       "employmentType": "Part-time",
       "locationType": "On-site",
       "url": "https://www.ufsj.edu.br",
-      "location": "São João del Rei, Brazil",
       "startDate": "2014-04",
-      "endDate": "2016-06",
-      "highlights": [
-        "Refactored educational platform public UI, serving 1k+ teachers and 15k+ students",
-        "Architected and developed an educational platform for primary school students using Flask and jQuery"
-      ]
+      "endDate": "2016-06"
     }
   ],
   "freelance": [
     {
-      "name": "Advis",
+      "name": "Advis · via DevStride",
       "startDate": "2025-11",
       "endDate": "2026-02",
-      "description": "Building wealth management platform with NestJS, Next.js, TypeScript; architected type-safe API client with OpenAPI and TanStack Query"
+      "description": "Wealth management platform in NestJS, Next.js, and TypeScript; type-safe API client with OpenAPI and TanStack Query"
     },
     {
-      "name": "RxPatterns",
+      "name": "RxPartner · via Surton",
       "startDate": "2024-08",
       "endDate": "2025-03",
-      "description": "Built FastAPI backend for pharmaceutical pricing, integrating Optum, RxLogic, Cervey, MedOne; DynamoDB caching, AWS infrastructure (Terraform)"
+      "description": "FastAPI pricing backend for a PBM platform, integrating Optum, RxLogic, Cervey, and MedOne; DynamoDB caching on Terraform-managed AWS"
     },
     {
       "name": "Tomorrow Health",
       "startDate": "2023-12",
       "endDate": "2024-06",
-      "description": "Built Prior Authorization system end-to-end—GraphQL/Django backend and React frontend with Medicaid form integration"
+      "description": "Prior Authorization system end-to-end: GraphQL/Django backend, React frontend, Medicaid form integration"
     },
     {
       "name": "Rise Financial",
       "startDate": "2022-07",
       "endDate": "2022-11",
-      "description": "Restructured Django backend with Very Good Security integration for PCI compliance"
-    }
-  ],
-  "projects": [
-    {
-      "name": "ccdakit",
-      "description": "Open-source Python library for generating HL7 C-CDA clinical documents",
-      "url": "https://github.com/Itisfilipe/ccdakit"
+      "description": "Django backend restructured with Very Good Security integration for PCI compliance"
     }
   ],
   "education": [
@@ -127,7 +191,7 @@
   "languages": [
     {
       "language": "English",
-      "fluency": "Professional Working"
+      "fluency": "Full Professional"
     },
     {
       "language": "Portuguese",

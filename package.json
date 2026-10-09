@@ -11,6 +11,6 @@
   "author": "Filipe Amaral",
   "license": "MIT",
   "dependencies": {
-    "puppeteer": "^24.0.0"
+    "puppeteer": "^25.13.0"
   }
 }

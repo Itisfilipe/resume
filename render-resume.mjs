@@ -1,7 +1,33 @@
 import fs from 'fs';
+import { pathToFileURL } from 'node:url';
 import puppeteer from 'puppeteer';
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+/*
+ * Section headings live here so the PDF and the Markdown export can never drift
+ * apart. `note` is a short qualifier rendered under the heading.
+ */
+const SECTIONS = {
+  summary: { title: 'Summary' },
+  skills: { title: 'Skills' },
+  work: { title: 'Experience' },
+  freelance: {
+    title: 'Freelance & Contract Experience',
+    note: 'Client engagements delivered alongside the full-time role above.',
+  },
+  projects: { title: 'Open Source' },
+  education: { title: 'Education' },
+  languages: { title: 'Languages' },
+};
+
+function escapeHTML(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
 
 function formatDate(dateStr) {
   if (!dateStr) return 'Present';
@@ -13,6 +39,10 @@ function formatDateRange(start, end) {
   return `${formatDate(start)} - ${formatDate(end)}`;
 }
 
+/*
+ * Months are counted inclusively on both ends, matching how LinkedIn reports
+ * tenure, so the durations here line up with the ones on a candidate's profile.
+ */
 function calculateDuration(startDate, endDate) {
   const [startYear, startMonth = 1] = startDate.split('-').map(Number);
   const end = endDate ? endDate.split('-').map(Number) : [new Date().getFullYear(), new Date().getMonth() + 1];
@@ -28,52 +58,60 @@ function calculateDuration(startDate, endDate) {
   return parts.join(' ') || '1 mo';
 }
 
+/* A URL is more useful on a printed page as readable text than as a hidden href. */
+function linkText(entry) {
+  return entry.displayUrl || entry.url.replace(/^https?:\/\/(www\.)?/, '');
+}
+
+function jobMeta(job) {
+  const meta = [job.employmentType, job.locationType, job.location].filter(Boolean);
+  return meta.length ? ` · ${meta.join(' · ')}` : '';
+}
+
 function renderMarkdown(resume) {
-  const { basics, work, education, languages, projects, freelance } = resume;
+  const { basics, skills, work, education, languages, projects, freelance } = resume;
 
   let md = `# ${basics.name}\n\n`;
   md += `**${basics.label}**\n\n`;
 
-  // Contact info
   const contacts = [];
   if (basics.location?.countryCode) contacts.push(basics.location.countryCode);
   if (basics.phone) contacts.push(basics.phone);
   if (basics.email) contacts.push(`[${basics.email}](mailto:${basics.email})`);
-  basics.profiles?.forEach(p => contacts.push(`[${p.network}](${p.url})`));
+  basics.profiles?.forEach(p => contacts.push(`[${linkText(p)}](${p.url})`));
   md += contacts.join(' · ') + '\n\n';
 
-  // Summary
   if (basics.summary) {
-    md += `## Summary\n\n${basics.summary}\n\n`;
+    md += `## ${SECTIONS.summary.title}\n\n${basics.summary}\n\n`;
   }
 
-  // Experience
+  if (skills?.length) {
+    md += `## ${SECTIONS.skills.title}\n\n`;
+    skills.forEach(group => {
+      md += `- **${group.name}**: ${group.keywords.join(', ')}\n`;
+    });
+    md += '\n';
+  }
+
   if (work?.length) {
-    md += `## Experience\n\n`;
+    md += `## ${SECTIONS.work.title}\n\n`;
     work.forEach(job => {
-      const meta = [];
-      if (job.employmentType) meta.push(job.employmentType);
-      if (job.locationType) meta.push(job.locationType);
-      if (job.location) meta.push(job.location);
-      const metaStr = meta.length ? ` · ${meta.join(' · ')}` : '';
       const companyName = job.url ? `[${job.name}](${job.url})` : job.name;
       const duration = calculateDuration(job.startDate, job.endDate);
 
       md += `### ${job.position}\n`;
-      md += `**${companyName}**${metaStr} | ${formatDateRange(job.startDate, job.endDate)} · ${duration}\n\n`;
+      md += `**${companyName}**${jobMeta(job)} | ${formatDateRange(job.startDate, job.endDate)} · ${duration}\n\n`;
 
-      if (job.highlights?.length) {
-        job.highlights.forEach(h => {
-          md += `- ${h}\n`;
-        });
-        md += '\n';
-      }
+      job.highlights?.forEach(h => {
+        md += `- ${h}\n`;
+      });
+      if (job.highlights?.length) md += '\n';
     });
   }
 
-  // Freelance
   if (freelance?.length) {
-    md += `## Freelance\n\n`;
+    md += `## ${SECTIONS.freelance.title}\n\n`;
+    md += `*${SECTIONS.freelance.note}*\n\n`;
     freelance.forEach(project => {
       const duration = calculateDuration(project.startDate, project.endDate);
       md += `- **${project.name}** (${formatDateRange(project.startDate, project.endDate)} · ${duration}): ${project.description}\n`;
@@ -81,19 +119,17 @@ function renderMarkdown(resume) {
     md += '\n';
   }
 
-  // Projects
   if (projects?.length) {
-    md += `## Projects\n\n`;
+    md += `## ${SECTIONS.projects.title}\n\n`;
     projects.forEach(project => {
       const projectName = project.url ? `[${project.name}](${project.url})` : project.name;
-      md += `- **${projectName}**: ${project.description}\n`;
+      md += `- **${projectName}** (${linkText(project)}): ${project.description}\n`;
     });
     md += '\n';
   }
 
-  // Education
   if (education?.length) {
-    md += `## Education\n\n`;
+    md += `## ${SECTIONS.education.title}\n\n`;
     education.forEach(edu => {
       const institutionName = edu.url ? `[${edu.institution}](${edu.url})` : edu.institution;
       const dateRange = edu.startDate ? `${formatDate(edu.startDate)} - ${formatDate(edu.endDate)}` : formatDate(edu.endDate);
@@ -102,9 +138,8 @@ function renderMarkdown(resume) {
     });
   }
 
-  // Languages
   if (languages?.length) {
-    md += `## Languages\n\n`;
+    md += `## ${SECTIONS.languages.title}\n\n`;
     md += languages.map(lang => `${lang.language} (${lang.fluency})`).join(' · ') + '\n';
   }
 
@@ -112,84 +147,99 @@ function renderMarkdown(resume) {
 }
 
 function renderHTML(resume) {
-  const { basics, work, education, languages, projects, freelance } = resume;
+  const { basics, skills, work, education, languages, projects, freelance } = resume;
+
+  const section = (key, body) => `
+  <section class="section">
+    <h2 class="section-title">
+      <span>${escapeHTML(SECTIONS[key].title)}</span>
+      ${SECTIONS[key].note ? `<span class="section-note">${escapeHTML(SECTIONS[key].note)}</span>` : ''}
+    </h2>
+    ${body}
+  </section>`;
+
+  const skillsHTML = skills?.map(group => `
+    <div class="skill-row">
+      <span class="skill-name">${escapeHTML(group.name)}:</span>
+      ${escapeHTML(group.keywords.join(', '))}
+    </div>
+  `).join('') || '';
 
   const workHTML = work?.map(job => {
-    const meta = [];
-    if (job.employmentType) meta.push(job.employmentType);
-    if (job.locationType) meta.push(job.locationType);
-    if (job.location) meta.push(job.location);
-    const metaStr = meta.length ? ` · ${meta.join(' · ')}` : '';
-    const companyName = job.url ? `<a href="${job.url}">${job.name}</a>` : job.name;
-    const duration = calculateDuration(job.startDate, job.endDate);
+    const companyName = job.url
+      ? `<a href="${escapeHTML(job.url)}">${escapeHTML(job.name)}</a>`
+      : escapeHTML(job.name);
 
     return `
     <div class="entry">
       <div class="entry-header">
-        <div class="entry-title">${job.position}</div>
-        <div class="entry-date">${formatDateRange(job.startDate, job.endDate)} · ${duration}</div>
+        <div class="entry-heading">
+          <span class="entry-company">${companyName}</span>${job.displayUrl ? `<span class="entry-meta"> (${escapeHTML(job.displayUrl)})</span>` : ''}
+          <span class="entry-title">${escapeHTML(job.position)}</span><span class="entry-meta">${escapeHTML(jobMeta(job))}</span>
+        </div>
+        <div class="entry-date">${escapeHTML(formatDateRange(job.startDate, job.endDate))} · ${escapeHTML(calculateDuration(job.startDate, job.endDate))}</div>
       </div>
-      <div class="entry-company">${companyName}${metaStr}</div>
       ${job.highlights?.length ? `
         <ul class="highlights">
-          ${job.highlights.map(h => `<li>${h}</li>`).join('')}
+          ${job.highlights.map(h => `<li>${escapeHTML(h)}</li>`).join('')}
         </ul>
       ` : ''}
     </div>
   `;
   }).join('') || '';
 
+  const freelanceHTML = freelance?.map(project => `
+    <li><strong>${escapeHTML(project.name)}</strong> (${escapeHTML(formatDateRange(project.startDate, project.endDate))} · ${escapeHTML(calculateDuration(project.startDate, project.endDate))}): ${escapeHTML(project.description)}</li>
+  `).join('') || '';
+
+  const projectsHTML = projects?.map(project => `
+    <li><strong>${project.url ? `<a href="${escapeHTML(project.url)}">${escapeHTML(project.name)}</a>` : escapeHTML(project.name)}</strong>
+    (${escapeHTML(linkText(project))}): ${escapeHTML(project.description)}</li>
+  `).join('') || '';
+
   const educationHTML = education?.map(edu => {
-    const institutionName = edu.url ? `<a href="${edu.url}">${edu.institution}</a>` : edu.institution;
+    const institutionName = edu.url
+      ? `<a href="${escapeHTML(edu.url)}">${escapeHTML(edu.institution)}</a>`
+      : escapeHTML(edu.institution);
     const dateRange = edu.startDate ? `${formatDate(edu.startDate)} - ${formatDate(edu.endDate)}` : formatDate(edu.endDate);
     return `
     <div class="entry">
       <div class="entry-header">
-        <div class="entry-title">${edu.studyType}, ${edu.area}</div>
-        <div class="entry-date">${dateRange}</div>
+        <div class="entry-heading">
+          <span class="entry-company">${institutionName}</span>
+          <span class="entry-title">${escapeHTML(`${edu.studyType}, ${edu.area}`)}</span>
+        </div>
+        <div class="entry-date">${escapeHTML(dateRange)}</div>
       </div>
-      <div class="entry-company">${institutionName}</div>
     </div>
   `;
   }).join('') || '';
 
-  const languagesHTML = languages?.map(lang =>
-    `<div class="lang-item">${lang.language} (${lang.fluency})</div>`
-  ).join('') || '';
+  const languagesHTML = languages
+    ?.map(lang => `${escapeHTML(lang.language)} (${escapeHTML(lang.fluency)})`)
+    .join(' · ') || '';
 
-  const projectsHTML = projects?.map(project => {
-    const projectName = project.url ? `<a href="${project.url}">${project.name}</a>` : project.name;
-    return `
-    <div class="entry">
-      <div class="entry-title">${projectName}</div>
-      <div class="entry-company">${project.description}</div>
-    </div>
-  `;
-  }).join('') || '';
+  const summaryHTML = basics.summary?.split('\n\n')
+    .map(p => `<p>${escapeHTML(p)}</p>`)
+    .join('') || '';
 
-  const freelanceHTML = freelance?.map(project => {
-    const duration = calculateDuration(project.startDate, project.endDate);
-    return `<li><strong>${project.name}</strong> (${formatDateRange(project.startDate, project.endDate)} · ${duration}): ${project.description}</li>`;
-  }).join('') || '';
+  const contactHTML = [
+    basics.location?.countryCode && escapeHTML(basics.location.countryCode),
+    basics.phone && escapeHTML(basics.phone),
+    basics.email && `<a href="mailto:${escapeHTML(basics.email)}">${escapeHTML(basics.email)}</a>`,
+    ...(basics.profiles?.map(p => `<a href="${escapeHTML(p.url)}">${escapeHTML(linkText(p))}</a>`) || []),
+  ].filter(Boolean).map(item => `<span>${item}</span>`).join('');
 
-  // Format summary with paragraphs
-  const summaryHTML = basics.summary?.split('\n\n').map(p =>
-    `<p>${p}</p>`
-  ).join('') || '';
-
-  return `<!DOCTYPE html>
-<html>
+  return `<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>${basics.name} - Resume</title>
+  <title>${escapeHTML(basics.name)} - Resume</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Times+New+Roman:wght@400;700&display=swap');
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     html {
       font-family: 'Times New Roman', Times, serif;
-      font-size: 9pt;
+      font-size: 10.5pt;
       line-height: 1.2;
       color: #000;
     }
@@ -197,116 +247,127 @@ function renderHTML(resume) {
     body {
       max-width: 8.5in;
       margin: 0 auto;
-      padding: 0;
       background: #fff;
     }
 
     a { color: #000; text-decoration: none; }
 
-    /* Header - centered */
     .header {
       text-align: center;
-      margin-bottom: 6pt;
+      margin-bottom: 5pt;
     }
 
     .name {
-      font-size: 13pt;
+      font-size: 16pt;
       font-weight: bold;
-      margin-bottom: 1pt;
+      letter-spacing: 0.3pt;
+    }
+
+    .label {
+      font-size: 10pt;
+      margin-top: 1pt;
     }
 
     .contact-info {
-      font-size: 8.5pt;
+      font-size: 9pt;
+      margin-top: 2pt;
     }
 
     .contact-info span:not(:last-child)::after {
       content: " · ";
     }
 
-    /* Summary */
-    .summary {
-      margin-bottom: 6pt;
-    }
-
     .summary p {
-      font-size: 8.5pt;
-      line-height: 1.25;
       margin-bottom: 3pt;
-      text-align: justify;
     }
 
     .summary p:last-child {
       margin-bottom: 0;
     }
 
-    /* Sections */
     .section {
-      margin-top: 8pt;
-      margin-bottom: 5pt;
+      margin-top: 6pt;
     }
 
     .section-title {
-      font-size: 10pt;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8pt;
+      font-size: 10.5pt;
       font-weight: bold;
-      text-decoration: underline;
-      margin-bottom: 3pt;
+      text-transform: uppercase;
+      letter-spacing: 0.6pt;
+      border-bottom: 0.6pt solid #000;
+      padding-bottom: 1pt;
+      margin-bottom: 2.5pt;
     }
 
-    /* Entries */
+    /* Rides on the heading's own line so the qualifier costs no vertical space. */
+    .section-note {
+      font-size: 8.5pt;
+      font-weight: normal;
+      font-style: italic;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .skill-row {
+      margin-bottom: 1pt;
+    }
+
+    .skill-name {
+      font-weight: bold;
+    }
+
     .entry {
-      margin-bottom: 5pt;
+      margin-bottom: 4pt;
     }
 
     .entry:last-child {
       margin-bottom: 0;
     }
 
+    /*
+     * Employer, role, and dates share one row. The stacked version cost a line
+     * per entry, which is the difference between a one- and two-page resume.
+     */
     .entry-header {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-    }
-
-    .entry-title {
-      font-weight: bold;
-      font-size: 9pt;
-    }
-
-    .entry-date {
-      font-size: 8.5pt;
-      white-space: nowrap;
+      gap: 8pt;
     }
 
     .entry-company {
-      font-size: 8.5pt;
-      margin-bottom: 1pt;
+      font-weight: bold;
+      font-size: 10.5pt;
     }
 
-    .highlights {
+    .entry-title {
+      font-style: italic;
+    }
+
+    .entry-title::before {
+      content: " — ";
+      font-style: normal;
+    }
+
+    .entry-date {
+      white-space: nowrap;
+    }
+
+    ul.highlights {
       list-style: disc;
-      padding-left: 12pt;
+      padding-left: 11pt;
       margin-top: 1pt;
     }
 
-    .highlights li {
-      font-size: 8.5pt;
-      line-height: 1.2;
-      margin-bottom: 0;
+    ul.highlights li {
+      margin-bottom: 0.5pt;
     }
 
-    /* Languages */
-    .lang-item {
-      font-size: 8.5pt;
-      display: inline;
-    }
-
-    .lang-item:not(:last-child)::after {
-      content: " · ";
-    }
-
-    /* Print styles */
     @media print {
-      body { padding: 0; }
       .entry { page-break-inside: avoid; }
       .section-title { page-break-after: avoid; }
     }
@@ -314,87 +375,38 @@ function renderHTML(resume) {
 </head>
 <body>
   <header class="header">
-    <div class="name">${basics.name}</div>
-    <div class="contact-info">
-      <span>${basics.location?.countryCode}</span>
-      <span>${basics.phone}</span>
-      <span><a href="mailto:${basics.email}">${basics.email}</a></span>
-      ${basics.profiles?.map(p => `<span><a href="${p.url}">${p.url}</a></span>`).join('') || ''}
-    </div>
+    <div class="name">${escapeHTML(basics.name)}</div>
+    <div class="label">${escapeHTML(basics.label)}</div>
+    <div class="contact-info">${contactHTML}</div>
   </header>
 
-  ${basics.summary ? `
-  <section class="section summary">
-    <h2 class="section-title">Summary</h2>
-    ${summaryHTML}
-  </section>
-  ` : ''}
-
-  ${work?.length ? `
-  <section class="section">
-    <h2 class="section-title">Relevant Experience</h2>
-    ${workHTML}
-  </section>
-  ` : ''}
-
-  ${freelance?.length ? `
-  <section class="section">
-    <h2 class="section-title">Other Projects</h2>
-    <ul class="highlights">
-      ${freelanceHTML}
-    </ul>
-  </section>
-  ` : ''}
-
-  ${projects?.length ? `
-  <section class="section">
-    <h2 class="section-title">Open Source</h2>
-    ${projectsHTML}
-  </section>
-  ` : ''}
-
-  ${education?.length ? `
-  <section class="section">
-    <h2 class="section-title">Education</h2>
-    ${educationHTML}
-  </section>
-  ` : ''}
-
-  ${languages?.length ? `
-  <section class="section">
-    <h2 class="section-title">Languages</h2>
-    ${languagesHTML}
-  </section>
-  ` : ''}
+  ${basics.summary ? `<section class="section summary"><h2 class="section-title">${escapeHTML(SECTIONS.summary.title)}</h2>${summaryHTML}</section>` : ''}
+  ${skills?.length ? section('skills', skillsHTML) : ''}
+  ${work?.length ? section('work', workHTML) : ''}
+  ${freelance?.length ? section('freelance', `<ul class="highlights">${freelanceHTML}</ul>`) : ''}
+  ${projects?.length ? section('projects', `<ul class="highlights">${projectsHTML}</ul>`) : ''}
+  ${education?.length ? section('education', educationHTML) : ''}
+  ${languages?.length ? section('languages', `<div>${languagesHTML}</div>`) : ''}
 </body>
 </html>`;
 }
 
 async function exportResume(resumeFile, outputPdf) {
   const resume = JSON.parse(fs.readFileSync(resumeFile, 'utf8'));
-  const html = renderHTML(resume);
-  const markdown = renderMarkdown(resume);
 
-  // Save markdown version
   const mdFile = outputPdf.replace('.pdf', '.md');
-  fs.writeFileSync(mdFile, markdown);
+  fs.writeFileSync(mdFile, renderMarkdown(resume));
   console.log(`Created ${mdFile}`);
 
   const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();
-
-  await page.setContent(html, { waitUntil: 'networkidle0' });
+  await page.setContent(renderHTML(resume), { waitUntil: 'domcontentloaded' });
 
   await page.pdf({
     path: outputPdf,
     format: 'Letter',
     printBackground: true,
-    margin: {
-      top: '0.4in',
-      bottom: '0.4in',
-      left: '0.4in',
-      right: '0.4in'
-    }
+    margin: { top: '0.4in', bottom: '0.4in', left: '0.45in', right: '0.45in' },
   });
 
   await browser.close();
@@ -403,8 +415,10 @@ async function exportResume(resumeFile, outputPdf) {
   console.log(`Created ${outputPdf} (${Math.round(stats.size / 1024)}KB)`);
 }
 
-const args = process.argv.slice(2);
-const resumeFile = args[0] || 'resume.json';
-const outputPdf = args[1] || 'resume.pdf';
+/* Only export when run as a command; importing this module must have no side effects. */
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const args = process.argv.slice(2);
+  exportResume(args[0] || 'resume.json', args[1] || 'resume.pdf').catch(console.error);
+}
 
-exportResume(resumeFile, outputPdf).catch(console.error);
+export { renderHTML, renderMarkdown };
